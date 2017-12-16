@@ -1,7 +1,7 @@
 name: RMC Base
 type: profile
 description: 'Install with required modules, configuration & target entities for migration of cfketteringfamilies.com to D8'
-version: 0.1-dev
+version: 0.2-dev
 core: 8.x
 distribution:
   name: RMC Base
@@ -42,5 +42,10 @@ dependencies:
   - views_ui
   - tour
   - automated_cron
+  # Contrib
+  - group
+  # Contrib in separate install task (@see rmc_base.profile)
+  # - gnode
+  # - ggroup
 themes:
   - seven

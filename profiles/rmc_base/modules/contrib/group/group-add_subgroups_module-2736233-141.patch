@@ -1,0 +1,3938 @@
+diff --git a/group.services.yml b/group.services.yml
+index 95b34e7..92cd189 100644
+--- a/group.services.yml
++++ b/group.services.yml
+@@ -78,7 +78,7 @@ services:
+       - { name: 'context_provider' }
+   group.membership_loader:
+     class: 'Drupal\group\GroupMembershipLoader'
+-    arguments: ['@entity_type.manager', '@current_user']
++    arguments: ['@entity_type.manager', '@current_user', '@event_dispatcher']
+   group.permissions:
+     class: 'Drupal\group\Access\GroupPermissionHandler'
+     arguments: ['@module_handler', '@string_translation', '@controller_resolver', '@plugin.manager.group_content_enabler']
+diff --git a/modules/ggroup/config/optional/views.view.subgroups.yml b/modules/ggroup/config/optional/views.view.subgroups.yml
+new file mode 100644
+index 0000000..6df6c24
+--- /dev/null
++++ b/modules/ggroup/config/optional/views.view.subgroups.yml
+@@ -0,0 +1,831 @@
++langcode: en
++status: true
++dependencies:
++  module:
++    - ggroup
++    - group
++id: subgroups
++label: Subgroups
++module: ggroup
++description: 'Lists all of the subgroups that have been added to a group.'
++tag: ''
++base_table: group_content_field_data
++base_field: id
++core: 8.x
++display:
++  default:
++    display_plugin: default
++    id: default
++    display_title: Master
++    position: 0
++    display_options:
++      access:
++        type: group_permission
++        options:
++          group_permission: 'access subgroup overview'
++      cache:
++        type: tag
++        options: {  }
++      query:
++        type: views_query
++        options:
++          disable_sql_rewrite: false
++          distinct: false
++          replica: false
++          query_comment: ''
++          query_tags: {  }
++      exposed_form:
++        type: basic
++        options:
++          submit_button: Apply
++          reset_button: false
++          reset_button_label: Reset
++          exposed_sorts_label: 'Sort by'
++          expose_sort_order: true
++          sort_asc_label: Asc
++          sort_desc_label: Desc
++      pager:
++        type: full
++        options:
++          items_per_page: 50
++          offset: 0
++          id: 0
++          total_pages: null
++          tags:
++            previous: Ã¢â‚¬Â¹Ã¢â‚¬Â¹
++            next: Ã¢â‚¬ÂºÃ¢â‚¬Âº
++            first: 'Ã‚Â« First'
++            last: 'Last Ã‚Â»'
++          expose:
++            items_per_page: false
++            items_per_page_label: 'Items per page'
++            items_per_page_options: '5, 10, 25, 50'
++            items_per_page_options_all: false
++            items_per_page_options_all_label: '- All -'
++            offset: false
++            offset_label: Offset
++          quantity: 9
++      style:
++        type: table
++        options:
++          grouping: {  }
++          row_class: ''
++          default_row_class: true
++          override: true
++          sticky: true
++          caption: ''
++          summary: ''
++          description: ''
++          columns:
++            label: label
++            type: type
++            changed: changed
++            view_group_content: view_group_content
++            edit_group_content: edit_group_content
++            delete_group_content: delete_group_content
++            edit_group: edit_group
++            delete_group: delete_group
++            dropbutton: dropbutton
++          info:
++            label:
++              sortable: true
++              default_sort_order: asc
++              align: ''
++              separator: ''
++              empty_column: false
++              responsive: ''
++            type:
++              sortable: true
++              default_sort_order: asc
++              align: ''
++              separator: ''
++              empty_column: false
++              responsive: ''
++            changed:
++              sortable: true
++              default_sort_order: asc
++              align: ''
++              separator: ''
++              empty_column: false
++              responsive: ''
++            view_group_content:
++              sortable: false
++              default_sort_order: asc
++              align: ''
++              separator: ''
++              empty_column: false
++              responsive: ''
++            edit_group_content:
++              sortable: false
++              default_sort_order: asc
++              align: ''
++              separator: ''
++              empty_column: false
++              responsive: ''
++            delete_group_content:
++              sortable: false
++              default_sort_order: asc
++              align: ''
++              separator: ''
++              empty_column: false
++              responsive: ''
++            edit_group:
++              sortable: false
++              default_sort_order: asc
++              align: ''
++              separator: ''
++              empty_column: false
++              responsive: ''
++            delete_group:
++              sortable: false
++              default_sort_order: asc
++              align: ''
++              separator: ''
++              empty_column: false
++              responsive: ''
++            dropbutton:
++              sortable: false
++              default_sort_order: asc
++              align: ''
++              separator: ''
++              empty_column: false
++              responsive: ''
++          default: changed
++          empty_table: true
++      row:
++        type: fields
++        options:
++          inline: {  }
++          separator: ''
++          hide_empty: false
++          default_field_elements: true
++      fields:
++        label:
++          id: label
++          table: groups_field_data
++          field: label
++          relationship: gc__group
++          group_type: group
++          admin_label: ''
++          label: Title
++          exclude: false
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: true
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
++          click_sort_column: value
++          type: string
++          settings:
++            link_to_entity: true
++          group_column: value
++          group_columns: {  }
++          group_rows: true
++          delta_limit: 0
++          delta_offset: 0
++          delta_reversed: false
++          delta_first_last: false
++          multi_type: separator
++          separator: ', '
++          field_api_classes: false
++          entity_type: group
++          entity_field: label
++          plugin_id: field
++        type:
++          id: type
++          table: groups_field_data
++          field: type
++          relationship: gc__group
++          group_type: group
++          admin_label: ''
++          label: Type
++          exclude: false
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: true
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
++          click_sort_column: target_id
++          type: entity_reference_label
++          settings:
++            link: true
++          group_column: target_id
++          group_columns: {  }
++          group_rows: true
++          delta_limit: 0
++          delta_offset: 0
++          delta_reversed: false
++          delta_first_last: false
++          multi_type: separator
++          separator: ', '
++          field_api_classes: false
++          entity_type: group
++          entity_field: type
++          plugin_id: field
++        changed:
++          id: changed
++          table: group_content_field_data
++          field: changed
++          relationship: none
++          group_type: group
++          admin_label: ''
++          label: Updated
++          exclude: false
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: true
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
++          click_sort_column: value
++          type: timestamp
++          settings:
++            date_format: short
++            custom_date_format: ''
++            timezone: ''
++          group_column: value
++          group_columns: {  }
++          group_rows: true
++          delta_limit: 0
++          delta_offset: 0
++          delta_reversed: false
++          delta_first_last: false
++          multi_type: separator
++          separator: ', '
++          field_api_classes: false
++          entity_type: group_content
++          entity_field: changed
++          plugin_id: field
++        view_group_content:
++          id: view_group_content
++          table: group_content
++          field: view_group_content
++          relationship: none
++          group_type: group
++          admin_label: ''
++          label: 'Link to Group content'
++          exclude: true
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: true
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
++          text: 'View relation'
++          entity_type: group_content
++          plugin_id: entity_link
++        edit_group_content:
++          id: edit_group_content
++          table: group_content
++          field: edit_group_content
++          relationship: none
++          group_type: group
++          admin_label: ''
++          label: 'Link to edit Group content'
++          exclude: true
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: true
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
++          text: 'Edit relation'
++          entity_type: group_content
++          plugin_id: entity_link_edit
++        delete_group_content:
++          id: delete_group_content
++          table: group_content
++          field: delete_group_content
++          relationship: none
++          group_type: group
++          admin_label: ''
++          label: 'Link to delete Group content'
++          exclude: true
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: true
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
++          text: 'Delete relation'
++          entity_type: group_content
++          plugin_id: entity_link_delete
++        edit_group:
++          id: edit_group
++          table: groups
++          field: edit_group
++          relationship: gc__group
++          group_type: group
++          admin_label: ''
++          label: 'Link to edit Group'
++          exclude: true
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: true
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
++          text: 'Edit subgroup'
++          entity_type: group
++          plugin_id: entity_link_edit
++        delete_group:
++          id: delete_group
++          table: groups
++          field: delete_group
++          relationship: gc__group
++          group_type: group
++          admin_label: ''
++          label: 'Link to delete Group'
++          exclude: true
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: true
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
++          text: 'Delete subgroup'
++          entity_type: group
++          plugin_id: entity_link_delete
++        dropbutton:
++          id: dropbutton
++          table: views
++          field: dropbutton
++          relationship: none
++          group_type: group
++          admin_label: ''
++          label: Dropbutton
++          exclude: false
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: true
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
++          fields:
++            view_group_content: view_group_content
++            edit_group_content: edit_group_content
++            delete_group_content: delete_group_content
++            edit_group: edit_group
++            delete_group: delete_group
++            label: '0'
++            changed: '0'
++          destination: true
++          plugin_id: dropbutton
++      filters:
++        type:
++          id: type
++          table: groups_field_data
++          field: type
++          relationship: gc__group
++          group_type: group
++          admin_label: ''
++          operator: in
++          value:
++            group: group
++          group: 1
++          exposed: true
++          expose:
++            operator_id: type_op
++            label: Type
++            description: ''
++            use_operator: false
++            operator: type_op
++            identifier: type
++            required: false
++            remember: false
++            multiple: false
++            remember_roles:
++              authenticated: authenticated
++              anonymous: '0'
++              administrator: '0'
++            reduce: false
++            argument: ''
++          is_grouped: false
++          group_info:
++            label: ''
++            description: ''
++            identifier: ''
++            optional: true
++            widget: select
++            multiple: false
++            remember: false
++            default_group: All
++            default_group_multiple: {  }
++            group_items: {  }
++          entity_type: group
++          entity_field: type
++          plugin_id: bundle
++      sorts: {  }
++      title: Subgroups
++      header: {  }
++      footer: {  }
++      empty:
++        area_text_custom:
++          id: area_text_custom
++          table: views
++          field: area_text_custom
++          relationship: none
++          group_type: group
++          admin_label: ''
++          empty: true
++          tokenize: false
++          content: 'No subgroups available.'
++          plugin_id: text_custom
++      relationships:
++        gc__group:
++          id: gc__group
++          table: group_content_field_data
++          field: gc__group
++          relationship: none
++          group_type: group
++          admin_label: 'Group content Group'
++          required: true
++          group_content_plugins: {  }
++          entity_type: group_content
++          plugin_id: group_content_to_entity
++        group_content:
++          id: group_content
++          table: groups_field_data
++          field: group_content
++          relationship: gc__group
++          group_type: group
++          admin_label: 'Group group content'
++          required: true
++          group_content_plugins: {  }
++          entity_type: group
++          plugin_id: group_content_to_entity_reverse
++      arguments:
++        gid:
++          id: gid
++          table: group_content_field_data
++          field: gid
++          relationship: none
++          group_type: group
++          admin_label: ''
++          default_action: 'access denied'
++          exception:
++            value: all
++            title_enable: false
++            title: All
++          title_enable: true
++          title: '{{ arguments.gid|placeholder }} subgroups'
++          default_argument_type: fixed
++          default_argument_options:
++            argument: ''
++          default_argument_skip_url: false
++          summary_options:
++            base_path: ''
++            count: true
++            items_per_page: 25
++            override: false
++          summary:
++            sort_order: asc
++            number_of_records: 0
++            format: default_summary
++          specify_validation: false
++          validate:
++            type: none
++            fail: 'not found'
++          validate_options: {  }
++          break_phrase: false
++          not: false
++          entity_type: group_content
++          entity_field: gid
++          plugin_id: group_id
++      display_extenders: {  }
++    cache_metadata:
++      max-age: 0
++      contexts:
++        - group_membership.roles.permissions
++        - 'languages:language_content'
++        - 'languages:language_interface'
++        - url
++        - url.query_args
++      tags: {  }
++  page:
++    display_plugin: page
++    id: page
++    display_title: Page
++    position: 1
++    display_options:
++      display_extenders: {  }
++      path: group/%group/subgroups
++      menu:
++        type: tab
++        title: Subgroups
++        description: ''
++        expanded: false
++        parent: ''
++        weight: 26
++        context: '0'
++        menu_name: main
++        enabled: true
++    cache_metadata:
++      max-age: 0
++      contexts:
++        - group_membership.roles.permissions
++        - 'languages:language_content'
++        - 'languages:language_interface'
++        - url
++        - url.query_args
++      tags: {  }
++
+diff --git a/modules/ggroup/ggroup.group.permissions.yml b/modules/ggroup/ggroup.group.permissions.yml
+new file mode 100644
+index 0000000..687036f
+--- /dev/null
++++ b/modules/ggroup/ggroup.group.permissions.yml
+@@ -0,0 +1,3 @@
++access subgroup overview:
++  title: 'Access subgroup overview'
++  description: 'Access the overview of all subgroups, regardless of subgroup type'
+diff --git a/modules/ggroup/ggroup.info.yml b/modules/ggroup/ggroup.info.yml
+new file mode 100644
+index 0000000..c1dc61f
+--- /dev/null
++++ b/modules/ggroup/ggroup.info.yml
+@@ -0,0 +1,7 @@
++name: 'Subgroup'
++description: 'Allows a group to belong to another group'
++package: 'Group'
++type: 'module'
++core: '8.x'
++dependencies:
++  - 'group'
+diff --git a/modules/ggroup/ggroup.install b/modules/ggroup/ggroup.install
+new file mode 100644
+index 0000000..702bd3f
+--- /dev/null
++++ b/modules/ggroup/ggroup.install
+@@ -0,0 +1,54 @@
++<?php
++/**
++ * @file
++ * Install, update and uninstall functions for the ggroup module.
++ */
++
++/**
++ * Implements hook_schema().
++ */
++function ggroup_schema() {
++  $schema['group_graph'] = [
++    'description' => 'Stores a graph of group relationships.',
++    'fields' => [
++      'id' => [
++        'type' => 'serial',
++        'not null' => TRUE,
++        'description' => 'Primary Key: Unique edge ID.',
++      ],
++      'entry_edge_id' => [
++        'type' => 'int',
++        'unsigned' => TRUE,
++        'description' => 'The ID of the incoming edge to the start vertex that is the creation reason for this implied edge; direct edges contain the same value as the id column.',
++      ],
++      'direct_edge_id' => [
++        'type' => 'int',
++        'unsigned' => TRUE,
++        'description' => 'The ID of the direct edge that caused the creation of this implied edge; direct edges contain the same value as the id column.',
++      ],
++      'exit_edge_id' => [
++        'type' => 'int',
++        'unsigned' => TRUE,
++        'description' => 'The ID of the outgoing edge from the end vertex that is the creation reason for this implied edge; direct edges contain the same value as the id column.',
++      ],
++      'start_vertex' => [
++        'type' => 'int',
++        'unsigned' => TRUE,
++        'description' => 'The ID of the start vertex.',
++      ],
++      'end_vertex' => [
++        'type' => 'int',
++        'unsigned' => TRUE,
++        'description' => 'The ID of the end vertex',
++      ],
++      'hops' => [
++        'type' => 'int',
++        'unsigned' => TRUE,
++        'description' => 'Indicates how many vertex hops are necessary for the path; it is zero for direct edges.',
++      ],
++    ],
++    'primary key' => ['id'],
++  ];
++
++  return $schema;
++}
+diff --git a/modules/ggroup/ggroup.links.action.yml b/modules/ggroup/ggroup.links.action.yml
+new file mode 100644
+index 0000000..e05bf0f
+--- /dev/null
++++ b/modules/ggroup/ggroup.links.action.yml
+@@ -0,0 +1,11 @@
++group_content.subgroup_relate_page:
++  route_name: 'entity.group_content.subgroup_relate_page'
++  title: 'Relate subgroup'
++  appears_on:
++    - 'view.subgroups.page'
++
++group_content.subgroup_add_page:
++  route_name: 'entity.group_content.subgroup_add_page'
++  title: 'Create subgroup'
++  appears_on:
++    - 'view.subgroups.page'
+diff --git a/modules/ggroup/ggroup.module b/modules/ggroup/ggroup.module
+new file mode 100644
+index 0000000..f6e7ca8
+--- /dev/null
++++ b/modules/ggroup/ggroup.module
+@@ -0,0 +1,57 @@
++<?php
++
++/**
++ * @file
++ * Enables Subgroup functionality.
++ */
++
++use Drupal\group\Entity\GroupTypeInterface;
++use Drupal\group\Entity\GroupContentInterface;
++
++/**
++ * Implements hook_entity_type_alter().
++ */
++function ggroup_entity_type_alter(array &$entity_types) {
++  /** @var \Drupal\Core\Entity\EntityTypeInterface[] $entity_types */
++  // Add the subgroup creation wizard steps as entity forms.
++  $entity_types['group']->setFormClass('ggroup-form', 'Drupal\ggroup\Form\SubgroupFormStep1');
++  $entity_types['group_content']->setFormClass('ggroup-form', 'Drupal\ggroup\Form\SubgroupFormStep2');
++
++  // Make sure circular references cannot be created with subgroups.
++  $entity_types['group_content']->addConstraint('GroupSubgroup');
++}
++
++/**
++ * Implements hook_ENTITY_TYPE_insert().
++ */
++function ggroup_group_type_insert(GroupTypeInterface $group_type) {
++  \Drupal::service('plugin.manager.group_content_enabler')->clearCachedDefinitions();
++}
++
++/**
++ * Implements hook_ENTITY_TYPE_insert().
++ */
++function ggroup_group_content_insert(GroupContentInterface $group_content) {
++  $plugin = $group_content->getContentPlugin();
++  $entity_type = $plugin->getEntityTypeId();
++
++  if ($entity_type !== 'group') {
++    return;
++  }
++
++  \Drupal::service('ggroup.group_hierarchy_manager')->addSubgroup($group_content);
++}
++
++/**
++ * Implements hook_ENTITY_TYPE_delete().
++ */
++function ggroup_group_content_delete(GroupContentInterface $group_content) {
++  $plugin = $group_content->getContentPlugin();
++  $entity_type = $plugin->getEntityTypeId();
++
++  if ($entity_type !== 'group') {
++    return;
++  }
++
++  \Drupal::service('ggroup.group_hierarchy_manager')->removeSubgroup($group_content);
++}
+diff --git a/modules/ggroup/ggroup.routing.yml b/modules/ggroup/ggroup.routing.yml
+new file mode 100644
+index 0000000..6978670
+--- /dev/null
++++ b/modules/ggroup/ggroup.routing.yml
+@@ -0,0 +1,12 @@
++route_callbacks:
++  - '\Drupal\ggroup\Routing\SubgroupRouteProvider::getRoutes'
++
++entity.group_content.subgroup_add_form:
++  path: '/group/{group}/subgroup/create/{group_type}'
++  defaults:
++    _controller: '\Drupal\ggroup\Controller\SubgroupWizardController::addForm'
++    _title_callback: '\Drupal\ggroup\Controller\SubgroupWizardController::addFormTitle'
++  requirements:
++    _subgroup_add_access: 'TRUE'
++  options:
++    _group_operation_route: 'TRUE'
+diff --git a/modules/ggroup/ggroup.services.yml b/modules/ggroup/ggroup.services.yml
+new file mode 100644
+index 0000000..1def80c
+--- /dev/null
++++ b/modules/ggroup/ggroup.services.yml
+@@ -0,0 +1,16 @@
++services:
++  access_check.ggroup.add:
++    class: Drupal\ggroup\Access\SubgroupAddAccessCheck
++    tags:
++      - { name: access_check, applies_to: _subgroup_add_access }
++  ggroup.event_subscriber:
++    class: Drupal\ggroup\EventSubscriber\GroupEventSubscriber
++    arguments: ['@ggroup.group_hierarchy_manager']
++    tags:
++      - {name: event_subscriber}
++  ggroup.group_hierarchy_manager:
++    class: Drupal\ggroup\GroupHierarchyManager
++    arguments: ['@ggroup.group_graph_storage', '@entity_type.manager', '@group.membership_loader']
++  ggroup.group_graph_storage:
++    class: Drupal\ggroup\Graph\SqlGroupGraphStorage
++    arguments: ['@database']
+diff --git a/modules/ggroup/ggroup.tokens.inc b/modules/ggroup/ggroup.tokens.inc
+new file mode 100644
+index 0000000..32891aa
+--- /dev/null
++++ b/modules/ggroup/ggroup.tokens.inc
+@@ -0,0 +1,89 @@
++<?php
++
++/**
++ * @file
++ * Builds placeholder replacement tokens for group group-related data.
++ */
++
++use Drupal\Core\Render\BubbleableMetadata;
++use Drupal\group\Entity\GroupContent;
++
++
++/**
++ * Implements hook_token_info_alter().
++ */
++function ggroup_token_info_alter(&$info) {
++  $info['tokens']['group']['url']['type'] = 'url';
++}
++
++/**
++ * Implements hook_token_info().
++ */
++function ggroup_token_info() {
++  $tokens = [];
++
++  $tokens['group'] = [
++    'name' => t('Group'),
++    'description' => t('The parent group.'),
++    'type' => 'group',
++  ];
++
++  if (\Drupal::moduleHandler()->moduleExists('token')) {
++    $tokens['groups'] = [
++      'name' => t('Groups'),
++      'description' => t("An array of all the group parent groups."),
++      'type' => 'array',
++    ];
++  }
++
++  return array(
++    'tokens' => array('group' => $tokens),
++  );
++}
++
++/**
++ * Implements hook_tokens().
++ */
++function ggroup_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata) {
++  if ($type != 'group' || empty($data['group'])) {
++    return [];
++  }
++
++  $token_service = \Drupal::token();
++  $replacements = [];
++
++  $group_content_array = GroupContent::loadByEntity($data['group']);
++  if (empty($group_content_array)) {
++    return [];
++  }
++
++  $groups = [];
++  /** @var \Drupal\group\Entity\GroupContentInterface $group_content */
++  foreach ($group_content_array as $group_content) {
++    $group = $group_content->getGroup();
++    $groups[$group->id()] = $group->label();
++    $bubbleable_metadata->addCacheableDependency($group);
++  };
++
++  if (isset($tokens['groups'])) {
++    $replacements[$tokens['groups']] = token_render_array($groups, $options);
++  }
++
++  // [group:groups:*] chained tokens.
++  if ($parents_tokens = \Drupal::token()->findWithPrefix($tokens, 'groups')) {
++    $replacements += \Drupal::token()->generate('array', $parents_tokens, array('array' => $groups), $options, $bubbleable_metadata);
++  }
++
++  /** @var \Drupal\group\Entity\GroupContentInterface $group_content */
++  $group_content = array_pop($group_content_array);
++  $group = $group_content->getGroup();
++  if (isset($tokens['group'])) {
++    $replacements[$tokens['group']] = $group->label();
++  }
++
++  if ($group_tokens = $token_service->findWithPrefix($tokens, 'group')) {
++    $replacements += $token_service->generate('group', $group_tokens, array('group' => $group), $options, $bubbleable_metadata);
++  }
++
++  return $replacements;
++}
+diff --git a/modules/ggroup/ggroup.views.inc b/modules/ggroup/ggroup.views.inc
+new file mode 100644
+index 0000000..0daff87
+--- /dev/null
++++ b/modules/ggroup/ggroup.views.inc
+@@ -0,0 +1,32 @@
++<?php
++
++/**
++ * Views alteration.
++ */
++
++/**
++* Implements hook_views_data().
++*/
++function ggroup_views_data() {
++   $data = [];
++
++   $data['group_graph'] = [];
++   $data['group_graph']['table'] = [];
++   $data['group_graph']['table']['group'] = t('Group Graph table');
++   $data['group_graph']['table']['provider'] = 'ggroup';
++
++   return $data;
++}
++
++/**
++ * Implements hook_views_data_alter().
++ */
++function ggroup_views_data_alter(array &$data) {
++  $data['group_content_field_data']['group_id_depth'] = [
++    'help' => t('Group id with depth implemented by subgroups'),
++    'argument' => [
++      'title' => t('Has parent group ID (with depth)'),
++      'id' => 'group_id_depth',
++    ],
++  ];
++}
+diff --git a/modules/ggroup/src/Access/SubgroupAddAccessCheck.php b/modules/ggroup/src/Access/SubgroupAddAccessCheck.php
+new file mode 100644
+index 0000000..9bb9a55
+--- /dev/null
++++ b/modules/ggroup/src/Access/SubgroupAddAccessCheck.php
+@@ -0,0 +1,49 @@
++<?php
++
++namespace Drupal\ggroup\Access;
++
++use Drupal\Core\Access\AccessResult;
++use Drupal\Core\Routing\Access\AccessInterface;
++use Drupal\Core\Session\AccountInterface;
++use Drupal\group\Entity\GroupInterface;
++use Drupal\group\Entity\GroupTypeInterface;
++use Symfony\Component\Routing\Route;
++
++/**
++ * Determines access to for subgroup add forms.
++ */
++class SubgroupAddAccessCheck implements AccessInterface {
++
++  /**
++   * Checks access to the subgroup creation wizard.
++   *
++   * @param \Symfony\Component\Routing\Route $route
++   *   The route to check against.
++   * @param \Drupal\Core\Session\AccountInterface $account
++   *   The currently logged in account.
++   * @param \Drupal\group\Entity\GroupInterface $group
++   *   The group to create the subgroup in.
++   * @param \Drupal\group\Entity\GroupTypeInterface $group_type
++   *   The type of subgroup to create in the group.
++   *
++   * @return \Drupal\Core\Access\AccessResultInterface
++   *   The access result.
++   */
++  public function access(Route $route, AccountInterface $account, GroupInterface $group, GroupTypeInterface $group_type) {
++    $needs_access = $route->getRequirement('_subgroup_add_access') === 'TRUE';
++
++    // We can only get the group content type ID if the plugin is installed.
++    $plugin_id = 'subgroup:' . $group_type->id();
++    if (!$group->getGroupType()->hasContentPlugin($plugin_id)) {
++      return AccessResult::neutral();
++    }
++
++    // Determine whether the user can create groups of the provided type.
++    $access = $group->hasPermission('create subgroup:' . $group_type->id() . ' content', $account);
++
++    // Only allow access if the user can create subgroups of the provided type
++    // or if he doesn't need access to do so.
++    return AccessResult::allowedIf($access xor !$needs_access);
++  }
++
++}
+diff --git a/modules/ggroup/src/Controller/SubgroupController.php b/modules/ggroup/src/Controller/SubgroupController.php
+new file mode 100644
+index 0000000..842be7b
+--- /dev/null
++++ b/modules/ggroup/src/Controller/SubgroupController.php
+@@ -0,0 +1,83 @@
++<?php
++
++namespace Drupal\ggroup\Controller;
++
++use Drupal\Core\Entity\EntityFormBuilderInterface;
++use Drupal\Core\Entity\EntityTypeManagerInterface;
++use Drupal\Core\Render\RendererInterface;
++use Drupal\group\Entity\Controller\GroupContentController;
++use Drupal\group\Entity\GroupInterface;
++use Drupal\group\Plugin\GroupContentEnablerManagerInterface;
++use Drupal\user\PrivateTempStoreFactory;
++use Symfony\Component\DependencyInjection\ContainerInterface;
++
++/**
++ * Returns responses for 'subgroup' GroupContent routes.
++ */
++class SubgroupController extends GroupContentController {
++
++  /**
++   * The group content plugin manager.
++   *
++   * @var \Drupal\group\Plugin\GroupContentEnablerManagerInterface
++   */
++  protected $pluginManager;
++
++  /**
++   * Constructs a new GroupContentController.
++   *
++   * @param \Drupal\group\Plugin\GroupContentEnablerManagerInterface $plugin_manager
++   *   The group content plugin manager.
++   * @param \Drupal\user\PrivateTempStoreFactory $temp_store_factory
++   *   The private store factory.
++   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
++   *   The entity type manager.
++   * @param \Drupal\Core\Entity\EntityFormBuilderInterface $entity_form_builder
++   *   The entity form builder.
++   * @param \Drupal\Core\Render\RendererInterface $renderer
++   *   The renderer.
++   */
++  public function __construct(GroupContentEnablerManagerInterface $plugin_manager, PrivateTempStoreFactory $temp_store_factory, EntityTypeManagerInterface $entity_type_manager, EntityFormBuilderInterface $entity_form_builder, RendererInterface $renderer) {
++    parent::__construct($temp_store_factory, $entity_type_manager, $entity_form_builder, $renderer);
++    $this->pluginManager = $plugin_manager;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function create(ContainerInterface $container) {
++    return new static(
++      $container->get('plugin.manager.group_content_enabler'),
++      $container->get('user.private_tempstore'),
++      $container->get('entity_type.manager'),
++      $container->get('entity.form_builder'),
++      $container->get('renderer')
++    );
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function addPageBundles(GroupInterface $group, $create_mode) {
++    $bundles = [];
++
++    // Retrieve all subgroup plugins for the group's type.
++    $plugin_ids = $this->pluginManager->getInstalledIds($group->getGroupType());
++    foreach ($plugin_ids as $key => $plugin_id) {
++      if (strpos($plugin_id, 'subgroup:') !== 0) {
++        unset($plugin_ids[$key]);
++      }
++    }
++
++    // Retrieve all of the responsible group content types, keyed by plugin ID.
++    $storage = $this->entityTypeManager->getStorage('group_content_type');
++    $properties = ['group_type' => $group->bundle(), 'content_plugin' => $plugin_ids];
++    foreach ($storage->loadByProperties($properties) as $bundle => $group_content_type) {
++      /** @var \Drupal\group\Entity\GroupContentTypeInterface $group_content_type */
++      $bundles[$group_content_type->getContentPluginId()] = $bundle;
++    }
++
++    return $bundles;
++  }
++
++}
+diff --git a/modules/ggroup/src/Controller/SubgroupWizardController.php b/modules/ggroup/src/Controller/SubgroupWizardController.php
+new file mode 100644
+index 0000000..f6feb04
+--- /dev/null
++++ b/modules/ggroup/src/Controller/SubgroupWizardController.php
+@@ -0,0 +1,236 @@
++<?php
++
++namespace Drupal\ggroup\Controller;
++
++use Drupal\Core\Controller\ControllerBase;
++use Drupal\Core\Entity\EntityFormBuilderInterface;
++use Drupal\Core\Entity\EntityTypeManagerInterface;
++use Drupal\Core\Link;
++use Drupal\Core\Url;
++use Drupal\Core\Render\RendererInterface;
++use Drupal\group\Entity\GroupContent;
++use Drupal\group\Entity\GroupInterface;
++use Drupal\group\Plugin\GroupContentEnablerManagerInterface;
++use Drupal\group\Entity\Group;
++use Drupal\group\Entity\GroupTypeInterface;
++use Drupal\user\PrivateTempStoreFactory;
++use Symfony\Component\DependencyInjection\ContainerInterface;
++use Symfony\Component\HttpFoundation\RedirectResponse;
++
++/**
++ * Returns responses for 'subgroup' GroupContent routes.
++ */
++class SubgroupWizardController extends ControllerBase {
++
++  /**
++   * The private store for temporary subgroups.
++   *
++   * @var \Drupal\user\PrivateTempStore
++   */
++  protected $privateTempStore;
++
++  /**
++   * The entity type manager.
++   *
++   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
++   */
++  protected $entityTypeManager;
++
++  /**
++   * The entity form builder.
++   *
++   * @var \Drupal\Core\Entity\EntityFormBuilderInterface
++   */
++  protected $entityFormBuilder;
++
++  /**
++   * The group content plugin manager.
++   *
++   * @var \Drupal\group\Plugin\GroupContentEnablerManagerInterface
++   */
++  protected $pluginManager;
++
++  /**
++   * The renderer.
++   *
++   * @var \Drupal\Core\Render\RendererInterface
++   */
++  protected $renderer;
++
++  /**
++   * Constructs a new SubgroupWizardController.
++   *
++   * @param \Drupal\user\PrivateTempStoreFactory $temp_store_factory
++   *   The factory for the temp store object.
++   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
++   *   The entity type manager.
++   * @param \Drupal\Core\Entity\EntityFormBuilderInterface $entity_form_builder
++   *   The entity form builder.
++   * @param \Drupal\group\Plugin\GroupContentEnablerManagerInterface $plugin_manager
++   *   The group content plugin manager.
++   * @param \Drupal\Core\Render\RendererInterface $renderer
++   *   The renderer.
++   */
++  public function __construct(PrivateTempStoreFactory $temp_store_factory, EntityTypeManagerInterface $entity_type_manager, EntityFormBuilderInterface $entity_form_builder, GroupContentEnablerManagerInterface $plugin_manager, RendererInterface $renderer) {
++    $this->privateTempStore = $temp_store_factory->get('ggroup_add_temp');
++    $this->entityTypeManager = $entity_type_manager;
++    $this->entityFormBuilder = $entity_form_builder;
++    $this->pluginManager = $plugin_manager;
++    $this->renderer = $renderer;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function create(ContainerInterface $container) {
++    return new static(
++      $container->get('user.private_tempstore'),
++      $container->get('entity_type.manager'),
++      $container->get('entity.form_builder'),
++      $container->get('plugin.manager.group_content_enabler'),
++      $container->get('renderer')
++    );
++  }
++
++  /**
++   * Provides the form for creating a subgroup in a group.
++   *
++   * @param \Drupal\group\Entity\GroupInterface $group
++   *   The group to create a subgroup in.
++   * @param \Drupal\group\Entity\GroupTypeInterface $group_type
++   *   The subgroup type to create.
++   *
++   * @return array
++   *   The form array for either step 1 or 2 of the subgroup creation wizard.
++   */
++  public function addForm(GroupInterface $group, GroupTypeInterface $group_type) {
++    $plugin_id = 'subgroup:' . $group_type->id();
++    $storage_id = $plugin_id . ':' . $group->id();
++    $creation_wizard = $group->getGroupType()->getContentPlugin($plugin_id)->getConfiguration()['use_creation_wizard'];
++    // If we are on step one, we need to build a group form.
++    if ($this->privateTempStore->get("$storage_id:step") !== 2) {
++      $this->privateTempStore->set("$storage_id:step", 1);
++
++      // Only create a new group if we have nothing stored.
++      if (!$entity = $this->privateTempStore->get("$storage_id:group")) {
++        $entity = Group::create(['type' => $group_type->id()]);
++      }
++    }
++    // If we are on step two, we need to build a group content form.
++    else {
++      /** @var \Drupal\group\Plugin\GroupContentEnablerInterface $plugin */
++      $plugin = $group->getGroupType()->getContentPlugin($plugin_id);
++      $entity = GroupContent::create([
++        'type' => $plugin->getContentTypeConfigId(),
++        'gid' => $group->id(),
++      ]);
++      if (!$creation_wizard && $entity = $this->privateTempStore->get("$storage_id:group")) {
++         $entity->save();
++         $group->addContent($entity, $plugin_id);
++
++          // We also clear the private store so we can start fresh next time around.
++          $this->privateTempStore->delete("$storage_id:step");
++          $this->privateTempStore->delete("$storage_id:group");
++
++         return $this->redirect('entity.group.canonical', ['group' => $entity ->id()]);
++      }
++    }
++
++    // Return the form with the group and storage ID added to the form state.
++    $extra = ['group' => $group, 'storage_id' => $storage_id, 'wizard' => $creation_wizard];
++    return $this->entityFormBuilder()->getForm($entity, 'ggroup-form', $extra);
++  }
++
++  /**
++   * The _title_callback for the add group form route.
++   *
++   * @param \Drupal\group\Entity\GroupInterface $group
++   *   The group to create a group in.
++   * @param \Drupal\group\Entity\GroupTypeInterface $group_type
++   *   The group type to create.
++   *
++   * @return string
++   *   The page title.
++   */
++  public function addFormTitle(GroupInterface $group, GroupTypeInterface $group_type) {
++    return $this->t('Create %type in %label', ['%type' => $group_type->label(), '%label' => $group->label()]);
++  }
++
++  /**
++   * Provides the subgroup creation overview page.
++   *
++   * @param \Drupal\group\Entity\GroupInterface $group
++   *   The group to add the subgroup to.
++   *
++   * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
++   *   The subgroup creation overview page or a redirect to the create form if
++   *   we only have 1 bundle.
++   */
++  public function addPage(GroupInterface $group) {
++    // We do not set the "entity_add_list" template's "#add_bundle_message" key
++    // because we deny access to the page if no bundle is available.
++    $build = ['#theme' => 'entity_add_list', '#bundles' => []];
++    $add_form_route = 'entity.group_content.subgroup_add_form';
++
++    // Retrieve all subgroup plugins for the group's type.
++    $plugin_ids = $this->pluginManager->getInstalledIds($group->getGroupType());
++    foreach ($plugin_ids as $key => $plugin_id) {
++      if (strpos($plugin_id, 'subgroup:') !== 0) {
++        unset($plugin_ids[$key]);
++      }
++    }
++
++    $storage = $this->entityTypeManager->getStorage('group_content_type');
++    $properties = [
++      'group_type' => $group->bundle(),
++      'content_plugin' => $plugin_ids,
++    ];
++    /** @var \Drupal\group\Entity\GroupContentTypeInterface[] $bundles */
++    $bundles = $storage->loadByProperties($properties);
++
++    // Filter out the bundles the user doesn't have access to.
++    $access_control_handler = $this->entityTypeManager->getAccessControlHandler('group_content');
++    foreach (array_keys($bundles) as $bundle) {
++      // Check for access and add it as a cacheable dependency.
++      $access = $access_control_handler->createAccess($bundle, NULL, ['group' => $group], TRUE);
++      $this->renderer->addCacheableDependency($build, $access);
++
++      // Remove inaccessible bundles from the list.
++      if (!$access->isAllowed()) {
++        unset($bundles[$bundle]);
++      }
++    }
++
++    // Redirect if there's only one bundle available.
++    if (count($bundles) == 1) {
++      $group_content_type = reset($bundles);
++      $plugin = $group_content_type->getContentPlugin();
++      $route_params = ['group' => $group->id(), 'group_type' => $plugin->getEntityBundle()];
++      $url = Url::fromRoute($add_form_route, $route_params, ['absolute' => TRUE]);
++      return new RedirectResponse($url->toString());
++    }
++
++    // Get the subgroup type storage handler.
++    $storage_handler = $this->entityTypeManager->getStorage('group_type');
++
++    // Set the info for all of the remaining bundles.
++    foreach ($bundles as $bundle => $group_content_type) {
++      $plugin = $group_content_type->getContentPlugin();
++      $bundle_label = $storage_handler->load($plugin->getEntityBundle())->label();
++      $route_params = ['group' => $group->id(), 'group_type' => $plugin->getEntityBundle()];
++
++      $build['#bundles'][$bundle] = [
++        'label' => $bundle_label,
++        'description' => $this->t('Create a subgroup of type %group_type for the group.', ['%group_type' => $bundle_label]),
++        'add_link' => Link::createFromRoute($bundle_label, $add_form_route, $route_params),
++      ];
++    }
++
++    // Add the list cache tags for the GroupContentType entity type.
++    $bundle_entity_type = $this->entityTypeManager->getDefinition('group_content_type');
++    $build['#cache']['tags'] = $bundle_entity_type->getListCacheTags();
++
++    return $build;
++  }
++
++}
+diff --git a/modules/ggroup/src/EventSubscriber/GroupEventSubscriber.php b/modules/ggroup/src/EventSubscriber/GroupEventSubscriber.php
+new file mode 100644
+index 0000000..604542b
+--- /dev/null
++++ b/modules/ggroup/src/EventSubscriber/GroupEventSubscriber.php
+@@ -0,0 +1,75 @@
++<?php
++
++namespace Drupal\ggroup\EventSubscriber;
++
++use Drupal\ggroup\GroupHierarchyManager;
++use Drupal\group\Event\GroupEvents;
++use Drupal\group\Event\GroupPermissionEvent;
++use Symfony\Component\EventDispatcher\EventSubscriberInterface;
++
++/**
++ * Inherit a permission from a subgroup or supergroup.
++ */
++class GroupEventSubscriber implements EventSubscriberInterface {
++
++  /**
++   * The group hierarchy manager.
++   *
++   * @var \Drupal\ggroup\GroupHierarchyManager
++   */
++  protected $hierarchyManager;
++
++  /**
++   * Static cache of group permissions for a user.
++   *
++   * This nested array is keyed by user ID, group ID and permission.
++   *
++   * @var bool[][][]
++   */
++  protected $groupPermissions;
++
++  /**
++   * Constructs a GroupEventSubscriber object.
++   *
++   * @param \Drupal\ggroup\GroupHierarchyManager $hierarchy_manager
++   *   The entity type manager.
++   */
++  public function __construct(GroupHierarchyManager $hierarchy_manager) {
++    $this->hierarchyManager = $hierarchy_manager;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function getSubscribedEvents() {
++    $events[GroupEvents::PERMISSION][] = ['inheritGroupPermission'];
++    return $events;
++  }
++
++  /**
++   * Inherit a permission from a subgroup or supergroup.
++   *
++   * @param \Drupal\group\Event\GroupPermissionEvent $event
++   *   The subscribed event.
++   */
++  public function inheritGroupPermission(GroupPermissionEvent $event) {
++    $group = $event->getGroup();
++    $account = $event->getAccount();
++    $permission = $event->getPermission();
++    if (!empty($this->groupPermissions[$group->id()][$account->id()][$permission])) {
++      $event->setPermission($this->groupPermissions[$group->id()][$account->id()][$permission]);
++    }
++
++    $group_roles = $this->hierarchyManager->getInheritedGroupRoles($group, $account);
++
++    // Check each inherited role for the requested permission.
++    $this->groupPermissions[$group->id()][$account->id()][$permission] = FALSE;
++    foreach ($group_roles as $group_role) {
++      if ($group_role->hasPermission($event->getPermission())) {
++        $this->groupPermissions[$group->id()][$account->id()][$permission] = TRUE;
++        $event->setPermission(TRUE);
++      }
++    }
++  }
++
++}
+diff --git a/modules/ggroup/src/Form/SubgroupFormStep1.php b/modules/ggroup/src/Form/SubgroupFormStep1.php
+new file mode 100644
+index 0000000..2063bcf
+--- /dev/null
++++ b/modules/ggroup/src/Form/SubgroupFormStep1.php
+@@ -0,0 +1,111 @@
++<?php
++
++namespace Drupal\ggroup\Form;
++
++use Drupal\group\Entity\Form\GroupForm;
++use Drupal\user\PrivateTempStoreFactory;
++use Drupal\Core\Url;
++use Drupal\Core\Form\FormStateInterface;
++use Drupal\Core\Entity\EntityManagerInterface;
++use Symfony\Component\DependencyInjection\ContainerInterface;
++
++/**
++ * Provides a creating a group without it being saved yet.
++ */
++class SubgroupFormStep1 extends GroupForm {
++
++  /**
++   * The private store for temporary subgroups.
++   *
++   * @var \Drupal\user\PrivateTempStore
++   */
++  protected $privateTempStore;
++
++  /**
++   * Constructs a SubgroupFormStep2 object.
++   *
++   * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
++   *   The entity manager.
++   * @param \Drupal\user\PrivateTempStoreFactory $temp_store_factory
++   *   The factory for the temp store object.
++   */
++  public function __construct(PrivateTempStoreFactory $temp_store_factory, EntityManagerInterface $entity_manager) {
++    parent::__construct($temp_store_factory, $entity_manager);
++    $this->privateTempStore = $temp_store_factory->get('ggroup_add_temp');
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function create(ContainerInterface $container) {
++    return new static(
++      $container->get('user.private_tempstore'),
++      $container->get('entity.manager')
++    );
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function actions(array $form, FormStateInterface $form_state) {
++    $actions['submit'] = [
++      '#type' => 'submit',
++      '#value' => $form_state->get('wizard') ? $this->t('Continue to final step') : $this->t('Create subgroup'),
++      '#submit' => ['::submitForm', '::saveTemporary'],
++    ];
++
++    $actions['cancel'] = [
++      '#type' => 'submit',
++      '#value' => $this->t('Cancel'),
++      '#submit' => ['::cancel'],
++      '#limit_validation_errors' => [],
++    ];
++
++    return $actions;
++  }
++
++  /**
++   * Saves a temporary group and continues to step 2 of subgroup creation.
++   *
++   * @param array $form
++   *   An associative array containing the structure of the form.
++   * @param \Drupal\Core\Form\FormStateInterface $form_state
++   *   The current state of the form.
++   *
++   * @see \Drupal\ggroup\Controller\SubgroupWizardController::add()
++   * @see \Drupal\ggroup\Form\SubgroupFormStep2
++   */
++  public function saveTemporary(array &$form, FormStateInterface $form_state) {
++    $storage_id = $form_state->get('storage_id');
++
++    $this->privateTempStore->set("$storage_id:group", $this->entity);
++    $this->privateTempStore->set("$storage_id:step", 2);
++
++    // Disable any URL-based redirect until the final step.
++    $request = $this->getRequest();
++    $form_state->setRedirectUrl(Url::fromRoute('<current>', [], ['query' => $request->query->all()]));
++    $request->query->remove('destination');
++  }
++
++  /**
++   * Cancels the group creation by emptying the temp store.
++   *
++   * @param array $form
++   *   An associative array containing the structure of the form.
++   * @param \Drupal\Core\Form\FormStateInterface $form_state
++   *   The current state of the form.
++   *
++   * @see \Drupal\ggroup\Controller\SubgroupWizardController::add()
++   */
++  public function cancel(array &$form, FormStateInterface $form_state) {
++    /** @var \Drupal\group\Entity\GroupInterface $group */
++    $group = $form_state->get('group');
++
++    $storage_id = $form_state->get('storage_id');
++    $this->privateTempStore->delete("$storage_id:group");
++
++    // Redirect to the group page if no destination was set in the URL.
++    $form_state->setRedirect('entity.group.canonical', ['group' => $group->id()]);
++  }
++
++}
+diff --git a/modules/ggroup/src/Form/SubgroupFormStep2.php b/modules/ggroup/src/Form/SubgroupFormStep2.php
+new file mode 100644
+index 0000000..1cd2eb6
+--- /dev/null
++++ b/modules/ggroup/src/Form/SubgroupFormStep2.php
+@@ -0,0 +1,112 @@
++<?php
++
++namespace Drupal\ggroup\Form;
++
++use Drupal\group\Entity\Form\GroupContentForm;
++use Drupal\user\PrivateTempStoreFactory;
++use Drupal\Core\Url;
++use Drupal\Core\Form\FormStateInterface;
++use Drupal\Core\Entity\EntityManagerInterface;
++use Symfony\Component\DependencyInjection\ContainerInterface;
++
++/**
++ * Provides a form creating a subgroup.
++ */
++class SubgroupFormStep2 extends GroupContentForm {
++
++  /**
++   * The private store for temporary subgroups.
++   *
++   * @var \Drupal\user\PrivateTempStore
++   */
++  protected $privateTempStore;
++
++  /**
++   * Constructs a SubgroupFormStep2 object.
++   *
++   * @param \Drupal\user\PrivateTempStoreFactory $temp_store_factory
++   *   The factory for the temp store object.
++   * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
++   *   The entity manager.
++   */
++  public function __construct(PrivateTempStoreFactory $temp_store_factory, EntityManagerInterface $entity_manager) {
++    parent::__construct($temp_store_factory, $entity_manager);
++    $this->privateTempStore = $temp_store_factory->get('ggroup_add_temp');
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function create(ContainerInterface $container) {
++    return new static(
++      $container->get('user.private_tempstore'),
++      $container->get('entity.manager')
++    );
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function form(array $form, FormStateInterface $form_state) {
++    $form = parent::form($form, $form_state);
++    $form['entity_id']['#access'] = FALSE;
++    return $form;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function actions(array $form, FormStateInterface $form_state) {
++    $actions = parent::actions($form, $form_state);
++
++    $actions['submit']['#value'] = $this->t('Create subgroup');
++    $actions['back'] = [
++      '#type' => 'submit',
++      '#value' => $this->t('Back'),
++      '#submit' => ['::submitForm', '::back'],
++      '#limit_validation_errors' => [],
++    ];
++
++    return $actions;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function save(array $form, FormStateInterface $form_state) {
++    $storage_id = $form_state->get('storage_id');
++
++    // We can now safely save the group and set its ID on the group content.
++    $group = $this->privateTempStore->get("$storage_id:group");
++    $group->save();
++    $this->entity->set('entity_id', $group->id());
++
++    // We also clear the private store so we can start fresh next time around.
++    $this->privateTempStore->delete("$storage_id:step");
++    $this->privateTempStore->delete("$storage_id:group");
++
++    return parent::save($form, $form_state);
++  }
++
++  /**
++   * Goes back to step 1 of subgroup creation.
++   *
++   * @param array $form
++   *   An associative array containing the structure of the form.
++   * @param \Drupal\Core\Form\FormStateInterface $form_state
++   *   The current state of the form.
++   *
++   * @see \Drupal\ggroup\Controller\SubgroupWizardController::add()
++   * @see \Drupal\ggroup\Form\SubgroupFormStep1
++   */
++  public function back(array &$form, FormStateInterface $form_state) {
++    $storage_id = $form_state->get('storage_id');
++    $this->privateTempStore->set("$storage_id:step", 1);
++
++    // Disable any URL-based redirect when going back to the previous step.
++    $request = $this->getRequest();
++    $form_state->setRedirectUrl(Url::fromRoute('<current>', [], ['query' => $request->query->all()]));
++    $request->query->remove('destination');
++  }
++
++}
+diff --git a/modules/ggroup/src/Graph/CyclicGraphException.php b/modules/ggroup/src/Graph/CyclicGraphException.php
+new file mode 100644
+index 0000000..690e710
+--- /dev/null
++++ b/modules/ggroup/src/Graph/CyclicGraphException.php
+@@ -0,0 +1,22 @@
++<?php
++
++namespace Drupal\ggroup\Graph;
++
++/**
++ * An exception thrown when a potential cycle is detected in an acyclic graph.
++ */
++class CyclicGraphException extends \Exception {
++
++  /**
++   * Constructs an CyclicGraphException.
++   *
++   * @param int|string $parent
++   *   The parent group ID or name.
++   * @param int|string $child
++   *   The child group ID or name.
++   */
++  public function __construct($parent, $child) {
++    parent::__construct("Cannot add group '$child' as a subgroup of group '$parent' because group '$parent' is already a descendant subgroup of group '$child'. Cyclic relationships cannot be handled.");
++  }
++
++}
+diff --git a/modules/ggroup/src/Graph/GroupGraphStorageInterface.php b/modules/ggroup/src/Graph/GroupGraphStorageInterface.php
+new file mode 100644
+index 0000000..b72d961
+--- /dev/null
++++ b/modules/ggroup/src/Graph/GroupGraphStorageInterface.php
+@@ -0,0 +1,105 @@
++<?php
++
++namespace Drupal\ggroup\Graph;
++
++/**
++ * An interface for defining the storage of group relationships as a graph.
++ */
++interface GroupGraphStorageInterface {
++
++  /**
++   * Relates the parent group and the child group.
++   *
++   * Inferred relationships based on existing relationships to the parent group
++   * and the child group will also be created.
++   *
++   * @param int $parent_group_id
++   *   The ID of the parent group.
++   * @param int $child_group_id
++   *   The ID of the child group.
++   *
++   * @return int|false
++   *   The ID of the graph edge relating the parent group to the child group or
++   *   FALSE if the relationship could not be created.
++   */
++  public function addEdge($parent_group_id, $child_group_id);
++
++  /**
++   * Removes the relationship between the parent group and the child group.
++   *
++   * The child group will no longer be a child of the parent group. Inferred
++   * relationships based on existing relationships to the parent group will
++   * also be removed.
++   *
++   * @param int $parent_group_id
++   *   The ID of the parent group.
++   * @param int $child_group_id
++   *   The ID of the child group.
++   */
++  public function removeEdge($parent_group_id, $child_group_id);
++
++  /**
++   * Gets all descendant child groups of the given parent group.
++   *
++   * @param int $group_id
++   *   The parent group ID.
++   *
++   * @return int[]
++   *   An array of descendant child group IDs.
++   */
++  public function getDescendants($group_id);
++
++  /**
++   * Gets all ancestor parent groups of the given child group.
++   *
++   * @param int $group_id
++   *   The child group ID.
++   *
++   * @return int[]
++   *   An array of ancestor parent group IDs.
++   */
++  public function getAncestors($group_id);
++
++  /**
++   * Checks if a group (group A) is the ancestor of another group (group B).
++   *
++   * @param int $a
++   *   The group whose ancestry status will be checked.
++   * @param int $b
++   *   The group for which ancestry status will be checked against.
++   *
++   * @return bool
++   *   TRUE if group A is an ancestor of group B.
++   */
++  public function isAncestor($a, $b);
++
++  /**
++   * Checks if a group (group A) is the descendant of another group (group B).
++   *
++   * @param int $a
++   *   The group whose descent status will be checked.
++   * @param int $b
++   *   The group for which descent status will be checked against.
++   *
++   * @return bool
++   *   TRUE if group A is an descendant of group B.
++   */
++  public function isDescendant($a, $b);
++
++  /**
++   * Use the Breadth-first search algoritm to find the path between groups.
++   *
++   * @param int $parent_group_id
++   *   The ID of the parent group.
++   * @param int $child_group_id
++   *   The ID of the child group.
++   *
++   * @return array[]
++   *   An nested array containing a path between the groups.
++   *
++   * @see https://en.wikipedia.org/wiki/Breadth-first_search
++   * @see https://www.sitepoint.com/data-structures-4/
++   */
++  public function getPath($parent_group_id, $child_group_id);
++
++}
+diff --git a/modules/ggroup/src/Graph/SqlGroupGraphStorage.php b/modules/ggroup/src/Graph/SqlGroupGraphStorage.php
+new file mode 100644
+index 0000000..5e8a6a7
+--- /dev/null
++++ b/modules/ggroup/src/Graph/SqlGroupGraphStorage.php
+@@ -0,0 +1,418 @@
++<?php
++
++namespace Drupal\ggroup\Graph;
++
++use Drupal\Core\Database\Connection;
++use Drupal\Core\Database\Query\Condition;
++
++/**
++ * SQL based storage of the group relationship graph.
++ */
++class SqlGroupGraphStorage implements GroupGraphStorageInterface {
++
++  /**
++   * Static cache for ancestor lookup.
++   *
++   * This array allow us to retrieve the ancestors faster.
++   *
++   * @var int[][]
++   *   An nested array containing all ancestor group IDs for a group.
++   */
++  protected $ancestors;
++
++  /**
++   * Static cache for descendant lookup.
++   *
++   * This array allow us to retrieve the ancestors faster.
++   *
++   * @var int[][]
++   *   An nested array containing all ancestor group IDs for a group.
++   */
++  protected $descendants;
++
++  /**
++   * Static cache for direct ancestor lookup.
++   *
++   * This array allow us to retrieve the ancestors faster.
++   *
++   * @var int[][]
++   *   An nested array containing all ancestor group IDs for a group.
++   */
++  protected $directAncestors;
++
++  /**
++   * Static cache for direct descendant lookup.
++   *
++   * This array allow us to retrieve the ancestors faster.
++   *
++   * @var int[][]
++   *   An nested array containing all ancestor group IDs for a group.
++   */
++  protected $directDescendants;
++
++  /**
++   * The database connection.
++   *
++   * @var \Drupal\Core\Database\Connection
++   */
++  protected $connection;
++
++  /**
++   * Contracts a new class instance.
++   *
++   * @param \Drupal\Core\Database\Connection $connection
++   *   The database connection.
++   */
++  public function __construct(Connection $connection) {
++    $this->connection = $connection;
++    $this->updateStaticCache();
++  }
++
++  /**
++   * Fetch all records from graph and cache descendants and ancestors.
++   *
++   * This is mostly done for performance reason. When having lost of groups,
++   * getting/checking the ancestors for each one in a seperate query is a lot
++   * slower.
++   */
++  protected function updateStaticCache() {
++    $query = $this->connection->select('group_graph', 'gg')
++      ->fields('gg', ['start_vertex', 'end_vertex']);
++    $this->descendants = $query->execute()->fetchAll(\PDO::FETCH_COLUMN | \PDO::FETCH_GROUP);
++    $this->ancestors = $query->execute()->fetchAll(\PDO::FETCH_COLUMN | \PDO::FETCH_GROUP, 1);
++
++    $query = $this->connection->select('group_graph', 'gg')
++      ->fields('gg', ['start_vertex', 'end_vertex']);
++    $query->condition('hops', 0);
++    $this->directDescendants = $query->execute()->fetchAll(\PDO::FETCH_COLUMN | \PDO::FETCH_GROUP);
++    $this->directAncestors = $query->execute()->fetchAll(\PDO::FETCH_COLUMN | \PDO::FETCH_GROUP, 1);
++  }
++
++  /**
++   * Gets the edge ID relating the parent group to the child group.
++   *
++   * @param int $parent_group_id
++   *   The ID of the parent group.
++   * @param int $child_group_id
++   *   The ID of the child group.
++   *
++   * @return int
++   *   The ID of the edge relating the parent group to the child group.
++   */
++  protected function getEdgeId($parent_group_id, $child_group_id) {
++    $query = $this->connection->select('group_graph', 'gg')
++      ->fields('gg', ['id']);
++    $query->condition('start_vertex', $parent_group_id);
++    $query->condition('end_vertex', $child_group_id);
++    $query->condition('hops', 0);
++    return $query->execute()->fetchField();
++  }
++
++  /**
++   * Relates the parent group to the child group.
++   *
++   * This method only creates the relationship from the parent group to the
++   * child group and not any of the inferred relationships based on what other
++   * relationships the parent group and the child group already have.
++   *
++   * @param int $parent_group_id
++   *   The ID of the parent group.
++   * @param int $child_group_id
++   *   The ID of the child group.
++   *
++   * @return int
++   *   The ID of the new edge relating the parent group to the child group.
++   */
++  protected function insertEdge($parent_group_id, $child_group_id) {
++    $new_edge_id = $this->connection->insert('group_graph')
++      ->fields([
++        'start_vertex' => $parent_group_id,
++        'end_vertex' => $child_group_id,
++        'hops' => 0,
++      ])
++      ->execute();
++
++    $this->connection->update('group_graph')
++      ->fields([
++        'entry_edge_id' => $new_edge_id,
++        'exit_edge_id' => $new_edge_id,
++        'direct_edge_id' => $new_edge_id,
++      ])
++      ->condition('id', $new_edge_id)
++      ->execute();
++
++    return $new_edge_id;
++  }
++
++  /**
++   * Insert parent group incoming edges to child group.
++   *
++   * @param int $edge_id
++   *   The existing edge ID relating the parent group to the child group.
++   * @param int $parent_group_id
++   *   The ID of the parent group.
++   * @param int $child_group_id
++   *   The ID of the child group.
++   */
++  protected function insertEdgesParentIncomingToChild($edge_id, $parent_group_id, $child_group_id) {
++    // Since fields are added before expressions, all fields are added as
++    // expressions to keep the field order intact.
++    $query = $this->connection->select('group_graph', 'gg');
++    $query->addExpression('gg.id', 'entry_edge_id');
++    $query->addExpression($edge_id, 'direct_edge_id');
++    $query->addExpression($edge_id, 'exit_edge_id');
++    $query->addExpression('gg.start_vertex', 'start_vertex');
++    $query->addExpression($child_group_id, 'end_vertex');
++    $query->addExpression('gg.hops + 1', 'hops');
++    $query->condition('end_vertex', $parent_group_id);
++
++    $this->connection->insert('group_graph')
++      ->fields([
++        'entry_edge_id',
++        'direct_edge_id',
++        'exit_edge_id',
++        'start_vertex',
++        'end_vertex',
++        'hops',
++      ])
++      ->from($query)
++      ->execute();
++  }
++
++  /**
++   * Insert parent group outgoing edges to child group.
++   *
++   * @param int $edge_id
++   *   The existing edge ID relating the parent group to the child group.
++   * @param int $parent_group_id
++   *   The ID of the parent group.
++   * @param int $child_group_id
++   *   The ID of the child group.
++   */
++  protected function insertEdgesParentToChildOutgoing($edge_id, $parent_group_id, $child_group_id) {
++    // Since fields are added before expressions, all fields are added as
++    // expressions to keep the field order intact.
++    $query = $this->connection->select('group_graph', 'gg');
++    $query->addExpression($edge_id, 'entry_edge_id');
++    $query->addExpression($edge_id, 'direct_edge_id');
++    $query->addExpression('gg.id', 'exit_edge_id');
++    $query->addExpression($parent_group_id, 'start_vertex');
++    $query->addExpression('gg.end_vertex', 'end_vertex');
++    $query->addExpression('gg.hops + 1', 'hops');
++    $query->condition('start_vertex', $child_group_id);
++
++    $this->connection->insert('group_graph')
++      ->fields([
++        'entry_edge_id',
++        'direct_edge_id',
++        'exit_edge_id',
++        'start_vertex',
++        'end_vertex',
++        'hops',
++      ])
++      ->from($query)
++      ->execute();
++  }
++
++  /**
++   * Insert the parent group incoming edges to the child group outgoing edges.
++   *
++   * @param int $edge_id
++   *   The existing edge ID relating the parent group to the child group.
++   * @param int $parent_group_id
++   *   The ID of the parent group.
++   * @param int $child_group_id
++   *   The ID of the child group.
++   */
++  protected function insertEdgesParentIncomingToChildOutgoing($edge_id, $parent_group_id, $child_group_id) {
++    // Since fields are added before expressions, all fields are added as
++    // expressions to keep the field order intact.
++    $query = $this->connection->select('group_graph', 'parent_gg');
++    $query->join('group_graph', 'child_gg');
++    $query->addExpression('parent_gg.id', 'entry_edge_id');
++    $query->addExpression($edge_id, 'direct_edge_id');
++    $query->addExpression('child_gg.id', 'exit_edge_id');
++    $query->addExpression('parent_gg.start_vertex', 'start_vertex');
++    $query->addExpression('child_gg.end_vertex', 'end_vertex');
++    $query->addExpression('parent_gg.hops + child_gg.hops + 1', 'hops');
++    $query->condition('parent_gg.end_vertex', $parent_group_id);
++    $query->condition('child_gg.start_vertex', $child_group_id);
++
++    $this->connection->insert('group_graph')
++      ->fields([
++        'entry_edge_id',
++        'direct_edge_id',
++        'exit_edge_id',
++        'start_vertex',
++        'end_vertex',
++        'hops',
++      ])
++      ->from($query)
++      ->execute();
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function addEdge($parent_group_id, $child_group_id) {
++    if ($parent_group_id === $child_group_id) {
++      return FALSE;
++    }
++
++    $parent_child_edge_id = $this->getEdgeId($parent_group_id, $child_group_id);
++
++    if (!empty($parent_child_edge_id)) {
++      return $parent_child_edge_id;
++    }
++
++    $child_parent_edge_id = $this->getEdgeId($parent_group_id, $child_group_id);
++
++    if (!empty($child_parent_edge_id)) {
++      return $child_parent_edge_id;
++    }
++
++    if ($this->isDescendant($parent_group_id, $child_group_id)) {
++      throw new CyclicGraphException($parent_group_id, $child_group_id);
++    }
++
++    $new_edge_id = $this->insertEdge($parent_group_id, $child_group_id);
++    $this->insertEdgesParentIncomingToChild($new_edge_id, $parent_group_id, $child_group_id);
++    $this->insertEdgesParentToChildOutgoing($new_edge_id, $parent_group_id, $child_group_id);
++    $this->insertEdgesParentIncomingToChildOutgoing($new_edge_id, $parent_group_id, $child_group_id);
++
++    $this->updateStaticCache();
++
++    return $new_edge_id;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function removeEdge($parent_group_id, $child_group_id) {
++    $edge_id = $this->getEdgeId($parent_group_id, $child_group_id);
++
++    if (empty($edge_id)) {
++      return;
++    }
++
++    $edges_to_delete = [];
++
++    $query = $this->connection->select('group_graph', 'gg')
++      ->fields('gg', ['id']);
++    $query->condition('direct_edge_id', $edge_id);
++    $results = $query->execute();
++
++    while ($id = $results->fetchField()) {
++      $edges_to_delete[] = $id;
++    }
++
++    if (empty($edges_to_delete)) {
++      return;
++    }
++
++    do {
++      $total_edges = count($edges_to_delete);
++
++      $query = $this->connection->select('group_graph', 'gg')
++        ->fields('gg', ['id']);
++      $query->condition('hops', 0);
++      $query->condition('id', $edges_to_delete, 'NOT IN');
++      $query_or_conditions = new Condition('OR');
++      $query_or_conditions->condition('entry_edge_id', $edges_to_delete, 'IN');
++      $query_or_conditions->condition('exit_edge_id', $edges_to_delete, 'IN');
++      $query->condition($query_or_conditions);
++      $results = $query->execute();
++
++      while ($id = $results->fetchField()) {
++        $edges_to_delete[] = $id;
++      }
++    } while (count($edges_to_delete) > $total_edges);
++
++    $this->connection->delete('group_graph')
++      ->condition('id', $edges_to_delete, 'IN')
++      ->execute();
++
++    $this->updateStaticCache();
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getDescendants($group_id) {
++    return isset($this->descendants[$group_id]) ? $this->descendants[$group_id] : [];
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getAncestors($group_id) {
++    return isset($this->ancestors[$group_id]) ? $this->ancestors[$group_id] : [];
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function isDescendant($a, $b) {
++    return isset($this->descendants[$b]) ? in_array($a, $this->descendants[$b]) : FALSE;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function isAncestor($a, $b) {
++    return isset($this->ancestors[$b]) ? in_array($a, $this->ancestors[$b]) : FALSE;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getPath($parent_group_id, $child_group_id) {
++    if (!$this->isAncestor($parent_group_id, $child_group_id)) {
++      return [];
++    }
++
++    $visited = [];
++    $solutions = [];
++
++    // Enqueue the origin vertex and mark as visited.
++    $queue = new \SplQueue();
++    $queue->enqueue($child_group_id);
++    $visited[$child_group_id] = TRUE;
++
++    // This is used to track the path back from each node.
++    $paths = [];
++    $paths[$child_group_id][] = $child_group_id;
++
++    // While queue is not empty and destination not found.
++    while (!$queue->isEmpty() && $queue->bottom() != $parent_group_id) {
++      $child_id = $queue->dequeue();
++
++      // Get parents for child in queue.
++      if (isset($this->directAncestors[$child_id])) {
++        $parent_ids = $this->directAncestors[$child_id];
++
++        foreach ($parent_ids as $parent_id) {
++          if ((int) $parent_id === (int) $parent_group_id) {
++            // Add this path to the list of solutions.
++            $solution = $paths[$child_id];
++            $solution[] = $parent_id;
++            $solutions[] = $solution;
++          }
++          else {
++            if (!isset($visited[$parent_id])) {
++              // If not yet visited, enqueue parent id and mark as visited.
++              $queue->enqueue($parent_id);
++              $visited[$parent_id] = TRUE;
++              // Add parent to current path.
++              $paths[$parent_id] = $paths[$child_id];
++              $paths[$parent_id][] = $parent_id;
++            }
++          }
++        }
++      }
++    }
++
++    return $solutions;
++  }
++
++}
+diff --git a/modules/ggroup/src/GroupHierarchyManager.php b/modules/ggroup/src/GroupHierarchyManager.php
+new file mode 100644
+index 0000000..235ca74
+--- /dev/null
++++ b/modules/ggroup/src/GroupHierarchyManager.php
+@@ -0,0 +1,435 @@
++<?php
++
++namespace Drupal\ggroup;
++
++use Drupal\Core\Entity\EntityTypeManagerInterface;
++use Drupal\Core\Session\AccountInterface;
++use Drupal\ggroup\Graph\GroupGraphStorageInterface;
++use Drupal\group\Entity\GroupInterface;
++use Drupal\group\Entity\GroupContentInterface;
++use Drupal\group\GroupMembership;
++use Drupal\group\GroupMembershipLoader;
++
++/**
++ * Manages the relationship between groups (as subgroups).
++ */
++class GroupHierarchyManager implements GroupHierarchyManagerInterface {
++
++  /**
++   * The group graph storage.
++   *
++   * @var \Drupal\ggroup\Graph\GroupGraphStorageInterface
++   */
++  protected $groupGraphStorage;
++
++  /**
++   * The entity type manager.
++   *
++   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
++   */
++  protected $entityTypeManager;
++
++  /**
++   * The group membership loader.
++   *
++   * @var \Drupal\group\GroupMembershipLoader
++   */
++  protected $membershipLoader;
++
++  /**
++   * Static cache for all group memberships per user.
++   *
++   * A nested array with all group memberships keyed by user ID.
++   *
++   * @var \Drupal\group\GroupMembership[]
++   */
++  protected $userMemberships = [];
++
++  /**
++   * Static cache for config of all installed subgroups.
++   *
++   * @var array[]
++   */
++  protected $subgroupConfig = [];
++
++  /**
++   * Static cache of all group content types for subgroup group content.
++   *
++   * This nested array is keyed by subgroup ID and group ID.
++   *
++   * @var string[][]
++   */
++  protected $subgroupRelations = [];
++
++  /**
++   * Static cache for all inherited subgroup role IDs per user.
++   *
++   * A nested array with all inherited subgroup roles keyed by user ID,
++   * group ID and subgroup ID.
++   *
++   * @var int[][][][]
++   */
++  protected $inheritedSubgroupRoleIds = [];
++
++  /**
++   * Static cache for all inherited supergroup role IDs per user.
++   *
++   * A nested array with all inherited supergroup roles keyed by user ID,
++   * group ID and supergroup ID.
++   *
++   * @var int[][][][]
++   */
++  protected $inheritedSupergroupRoleIds = [];
++
++  /**
++   * Constructs a new GroupHierarchyManager.
++   *
++   * @param \Drupal\ggroup\Graph\GroupGraphStorageInterface $group_graph_storage
++   *   The group graph storage service.
++   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
++   *   The entity type manager.
++   * @param \Drupal\group\GroupMembershipLoader $membership_loader
++   *   The group membership loader.
++   */
++  public function __construct(GroupGraphStorageInterface $group_graph_storage, EntityTypeManagerInterface $entity_type_manager, GroupMembershipLoader $membership_loader) {
++    $this->groupGraphStorage = $group_graph_storage;
++    $this->entityTypeManager = $entity_type_manager;
++    $this->membershipLoader = $membership_loader;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function addSubgroup(GroupContentInterface $group_content) {
++    $plugin = $group_content->getContentPlugin();
++
++    if ($plugin->getEntityTypeId() !== 'group') {
++      throw new \InvalidArgumentException('Given group content entity does not represent a subgroup relationship.');
++    }
++
++    $parent_group = $group_content->getGroup();
++    /** @var \Drupal\group\Entity\GroupInterface $child_group */
++    $child_group = $group_content->getEntity();
++
++    if ($parent_group->id() === NULL) {
++      throw new \InvalidArgumentException('Parent group must be saved before it can be related to another group.');
++    }
++
++    if ($child_group->id() === NULL) {
++      throw new \InvalidArgumentException('Child group must be saved before it can be related to another group.');
++    }
++
++    $new_edge_id = $this->groupGraphStorage->addEdge($parent_group->id(), $child_group->id());
++
++    // @todo Invalidate some kind of cache?
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function removeSubgroup(GroupContentInterface $group_content) {
++    $plugin = $group_content->getContentPlugin();
++
++    if ($plugin->getEntityTypeId() !== 'group') {
++      throw new \InvalidArgumentException('Given group content entity does not represent a subgroup relationship.');
++    }
++
++    $parent_group = $group_content->getGroup();
++
++    $child_group_id = $group_content->get('entity_id')->getValue();
++
++    if (!empty($child_group_id)) {
++      $child_group_id = reset($child_group_id)['target_id'];
++      $this->groupGraphStorage->removeEdge($parent_group->id(), $child_group_id);
++    }
++
++    // @todo Invalidate some kind of cache?
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function groupHasSubgroup(GroupInterface $group, GroupInterface $subgroup) {
++    return $this->groupGraphStorage->isDescendant($subgroup->id(), $group->id());
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getGroupSubgroups($group_id) {
++    $subgroup_ids = $this->getGroupSubgroupIds($group_id);
++    return $this->entityTypeManager->getStorage('group')->loadMultiple($subgroup_ids);
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getGroupSubgroupIds($group_id) {
++    return $this->groupGraphStorage->getDescendants($group_id);
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getGroupSupergroups($group_id) {
++    $subgroup_ids = $this->getGroupSupergroupIds($group_id);
++    return $this->entityTypeManager->getStorage('group')->loadMultiple($subgroup_ids);
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getGroupSupergroupIds($group_id) {
++    return $this->groupGraphStorage->getAncestors($group_id);
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getInheritedGroupRoles(GroupInterface $group, AccountInterface $account) {
++    $role_ids = [];
++
++    // Statically cache the memberships of a user since this method could get
++    // called a lot.
++    if (empty($this->userMemberships[$account->id()])) {
++      $this->userMemberships[$account->id()] = $this->membershipLoader->loadByUser($account);
++    }
++
++    foreach ($this->userMemberships[$account->id()] as $membership) {
++      $role_ids = array_merge($this->getInheritedSupergroupRoleIds($membership, $group), $role_ids);
++      $role_ids = array_merge($this->getInheritedSubgroupRoleIds($membership, $group), $role_ids);
++    }
++
++    return $this->entityTypeManager->getStorage('group_role')->loadMultiple($role_ids);
++  }
++
++  /**
++   * Get all inherited group roles for a group and a group membership.
++   *
++   * We map the roles down for each relation in the full path between the
++   * original group and the supergroup where the user has a membership. The
++   * result contains a list of all roles we have inherited from 1 or more
++   * supergroups.
++   *
++   * @param \Drupal\group\GroupMembership $membership
++   *   The group membership for which inherited roles will be loaded.
++   * @param \Drupal\group\Entity\GroupInterface $group
++   *   The group for which inherited roles will be loaded.
++   *
++   * @return string[]
++   *   An array of group roles IDs for the group.
++   */
++  protected function getInheritedSupergroupRoleIds(GroupMembership $membership, GroupInterface $group) {
++    $account_id = $membership->getGroupContent()->entity_id->target_id;
++    $supergroup_id = $membership->getGroupContent()->gid->target_id;
++
++    if (isset($this->inheritedSupergroupRoleIds[$account_id][$group->id()][$supergroup_id])) {
++      return $this->inheritedSupergroupRoleIds[$account_id][$group->id()][$supergroup_id];
++    }
++
++    $role_ids = [];
++    $group_roles_to_map = $this->getMembershipRoles($membership);
++
++    // Return loaded roles if user is a direct member of the group.
++    if ($supergroup_id === $group->id()) {
++      return $group_roles_to_map;
++    }
++
++    $paths = $this->groupGraphStorage->getPath($supergroup_id, $group->id());
++    foreach ($paths as $path) {
++      $inherited_role_ids = $group_roles_to_map;
++      $path_supergroup_ids_cache = [];
++      // Reverse the path since the list we want to start from the
++      // supergroups.
++      $reversed_path = array_reverse($path);
++      foreach ($reversed_path as $key => $path_supergroup_id) {
++        // We reached the end of the path, return mapped role IDs for group.
++        if ($path_supergroup_id === $group->id()) {
++          $role_ids = array_merge($role_ids, $inherited_role_ids);
++          break;
++        }
++
++        // Get the subgroup ID from the next element.
++        $path_subgroup_id = isset($reversed_path[$key + 1]) ? $reversed_path[$key + 1] : NULL;
++
++        // Get mapped roles for relation type. Filter array to remove
++        // unmapped roles.
++        $relation_config = $this->getSubgroupRelationConfig($path_supergroup_id, $path_subgroup_id);
++        $mapped_parent_roles = array_filter($relation_config['parent_role_mapping']);
++
++        // Check if we have a role to inherit and save a list of inherited
++        // subgroup roles for the next iteration.
++        $subgroup_role_ids = [];
++        foreach ($inherited_role_ids as $group_role_id) {
++          if (isset($mapped_parent_roles[$group_role_id])) {
++            $subgroup_role_ids[] = $mapped_parent_roles[$group_role_id];
++          }
++        }
++        $inherited_role_ids = $subgroup_role_ids;
++
++        // Store results in static cache.
++        $path_supergroup_ids_cache[] = $path_supergroup_id;
++        foreach ($path_supergroup_ids_cache as $path_supergroup_id) {
++          $this->inheritedSupergroupRoleIds[$account_id][$path_subgroup_id][$path_supergroup_id] = $inherited_role_ids;
++        }
++      }
++    }
++
++    return $this->inheritedSupergroupRoleIds[$account_id][$group->id()][$supergroup_id] = $role_ids;
++  }
++
++  /**
++   * Get all inherited group roles for a group and a group membership.
++   *
++   * We map the roles up for each relation in the full path between the
++   * original group and the subgroup where the user has a membership. The
++   * result contains a list of all roles we have inherited from 1 or more
++   * subgroups.
++   *
++   * @param \Drupal\group\GroupMembership $membership
++   *   The subgroup membership from which inherited roles will be loaded.
++   * @param \Drupal\group\Entity\GroupInterface $group
++   *   The group for which inherited roles will be loaded.
++   *
++   * @return string[]
++   *   An array of group roles IDs for the group.
++   */
++  protected function getInheritedSubgroupRoleIds(GroupMembership $membership, GroupInterface $group) {
++    $account_id = $membership->getGroupContent()->entity_id->target_id;
++    $subgroup_id = $membership->getGroupContent()->gid->target_id;
++
++    if (isset($this->inheritedSubgroupRoleIds[$account_id][$group->id()][$subgroup_id])) {
++      return $this->inheritedSubgroupRoleIds[$account_id][$group->id()][$subgroup_id];
++    }
++
++    $role_ids = [];
++    $group_roles_to_map = $this->getMembershipRoles($membership);
++
++    // Return loaded roles if user is a direct member of the group.
++    if ($subgroup_id === $group->id()) {
++      return $group_roles_to_map;
++    }
++
++    $paths = $this->groupGraphStorage->getPath($group->id(), $subgroup_id);
++    foreach ($paths as $path) {
++      $inherited_role_ids = $group_roles_to_map;
++      $path_subgroup_ids_cache = [];
++      foreach ($path as $key => $path_subgroup_id) {
++        // We reached the end of the path, store mapped role IDs.
++        if ($path_subgroup_id === $group->id()) {
++          $role_ids = array_merge($role_ids, $inherited_role_ids);
++          break;
++        }
++
++        // Get the subgroup ID from the next element.
++        $path_supergroup_id = isset($path[$key + 1]) ? $path[$key + 1] : NULL;
++
++        // Get mapped roles for relation type. Filter array to remove
++        // unmapped roles.
++        $relation_config = $this->getSubgroupRelationConfig($path_supergroup_id, $path_subgroup_id);
++        $mapped_child_roles = array_filter($relation_config['child_role_mapping']);
++
++        // Check if we have a role to inherit and save a list of inherited
++        // supergroup roles for the next iteration.
++        $supergroup_role_ids = [];
++        foreach ($inherited_role_ids as $group_role_id) {
++          if (isset($mapped_child_roles[$group_role_id])) {
++            $supergroup_role_ids[] = $mapped_child_roles[$group_role_id];
++          }
++        }
++        $inherited_role_ids = $supergroup_role_ids;
++
++        // Store results in static cache.
++        $path_subgroup_ids_cache[] = $path_subgroup_id;
++        foreach ($path_subgroup_ids_cache as $path_subgroup_id) {
++          $this->inheritedSubgroupRoleIds[$account_id][$path_supergroup_id][$path_subgroup_id] = $inherited_role_ids;
++        }
++      }
++    }
++
++    return $this->inheritedSubgroupRoleIds[$account_id][$group->id()][$subgroup_id] = $role_ids;
++  }
++
++  /**
++   * Get the role IDs for a group membership.
++   *
++   * @param \Drupal\group\GroupMembership $membership
++   *   The user to load the membership for.
++   *
++   * @return string[]
++   *   An array of role IDs.
++   */
++  protected function getMembershipRoles(GroupMembership $membership) {
++    $ids = [];
++    foreach ($membership->getGroupContent()->group_roles as $group_role_ref) {
++      $ids[] = $group_role_ref->target_id;
++    }
++
++    // We add the implied member role. Usually we should get this from the
++    // membership $membership->getGroup()->getGrouptype()->getMemberRoleID(),
++    // but since this means the whole Group and GroupType entities need to be
++    // loaded, this has a big impact on performance.
++    // @todo: Fix this hacky solution!
++    $ids[] = str_replace('-group_membership', '', $membership->getGroupContent()->bundle()) . '-member';
++
++    return $ids;
++  }
++
++  /**
++   * Get the config for all installed subgroup relations.
++   *
++   * @return array[]
++   *   A nested array with configuration values keyed by subgroup relation ID.
++   */
++  protected function getSubgroupRelationsConfig() {
++    // We create a static cache with the configuration for all subgroup
++    // relations since having separate queries for every relation has a big
++    // impact on performance.
++    if (!$this->subgroupConfig) {
++      foreach ($this->entityTypeManager->getStorage('group_type')->loadMultiple() as $group_type) {
++        $plugin_id = 'subgroup:' . $group_type->id();
++        /** @var \Drupal\group\Entity\Storage\GroupContentTypeStorageInterface $storage */
++        $storage = $this->entityTypeManager->getStorage('group_content_type');
++        $subgroup_content_types = $storage->loadByContentPluginId($plugin_id);
++        foreach ($subgroup_content_types as $subgroup_content_type) {
++          /** @var \Drupal\group\Entity\GroupContentTypeInterface $subgroup_content_type */
++          $this->subgroupConfig[$subgroup_content_type->id()] = $subgroup_content_type->getContentPlugin()->getConfiguration();
++        }
++      }
++    }
++    return $this->subgroupConfig;
++  }
++
++  /**
++   * Get the config for a relation between a group and a subgroup.
++   *
++   * @param int $group_id
++   *   The group for which to get the configuration.
++   * @param int $subgroup_id
++   *   The subgroup for which to get the configuration.
++   *
++   * @return array[]
++   *   A nested array with configuration values.
++   */
++  protected function getSubgroupRelationConfig($group_id, $subgroup_id) {
++    $subgroup_relations_config = $this->getSubgroupRelationsConfig();
++
++    // We need the type of each relation to fetch the configuration. We create
++    // a static cache for the types of all subgroup relations since fetching
++    // each relation independently has a big impact on performance.
++    if (!$this->subgroupRelations) {
++      // Get all  type between the supergroup and subgroup.
++      $group_contents = $this->entityTypeManager->getStorage('group_content')
++        ->loadByProperties([
++          'type' => array_keys($subgroup_relations_config),
++        ]);
++      foreach ($group_contents as $group_content) {
++        $this->subgroupRelations[$group_content->entity_id->target_id][$group_content->gid->target_id] = $group_content->bundle();
++      }
++    }
++
++    $type = $this->subgroupRelations[$subgroup_id][$group_id];
++    return $subgroup_relations_config[$type];
++  }
++
++}
+diff --git a/modules/ggroup/src/GroupHierarchyManagerInterface.php b/modules/ggroup/src/GroupHierarchyManagerInterface.php
+new file mode 100644
+index 0000000..50fbc8d
+--- /dev/null
++++ b/modules/ggroup/src/GroupHierarchyManagerInterface.php
+@@ -0,0 +1,108 @@
++<?php
++
++namespace Drupal\ggroup;
++
++use Drupal\Core\Session\AccountInterface;
++use Drupal\group\Entity\GroupInterface;
++use Drupal\group\Entity\GroupContentInterface;
++
++/**
++ * An interface for the group hierarchy manager.
++ */
++interface GroupHierarchyManagerInterface {
++
++  /**
++   * Relates one group to another as a subgroup.
++   *
++   * @param \Drupal\group\Entity\GroupContentInterface $group_content
++   *   The group content representing the subgroup relationship.
++   */
++  public function addSubgroup(GroupContentInterface $group_content);
++
++  /**
++   * Removes the relationship of a subgroup.
++   *
++   * @param \Drupal\group\Entity\GroupContentInterface $group_content
++   *   The group content representing the subgroup relationship.
++   */
++  public function removeSubgroup(GroupContentInterface $group_content);
++
++  /**
++   * Checks if a group has a subgroup anywhere in its descendents.
++   *
++   * @param \Drupal\group\Entity\GroupInterface $group
++   *   The parent group whose subgroups will be checked.
++   * @param \Drupal\group\Entity\GroupInterface $subgroup
++   *   The subgroup that will be searched for within the parent group's
++   *   subgroups.
++   *
++   * @return bool
++   *   TRUE if the given group has the given subgroup, or FALSE if not.
++   */
++  public function groupHasSubgroup(GroupInterface $group, GroupInterface $subgroup);
++
++  /**
++   * Loads the subgroups of a given group.
++   *
++   * @param int $group_id
++   *   The group for which subgroups will be loaded.
++   *
++   * @return \Drupal\group\Entity\GroupInterface[]
++   *   An array of subgroups for the given group.
++   */
++  public function getGroupSubgroups($group_id);
++
++  /**
++   * Gets the IDs of the subgroups of a given group.
++   *
++   * @param int $group_id
++   *   The group for which subgroups will be loaded.
++   *
++   * @return int[]
++   *   An array of subgroup IDs for the given group.
++   */
++  public function getGroupSubgroupIds($group_id);
++
++  /**
++   * Loads the supergroups of a given group.
++   *
++   * @param int $group_id
++   *   The group for which supergroups will be loaded.
++   *
++   * @return \Drupal\group\Entity\GroupInterface[]
++   *   An array of supergroups for the given group.
++   */
++  public function getGroupSupergroups($group_id);
++
++  /**
++   * Gets the IDs of the supergroups of a given group.
++   *
++   * @param int $group_id
++   *   The group for which supergroups will be loaded.
++   *
++   * @return int[]
++   *   An array of supergroup IDs for the given group.
++   */
++  public function getGroupSupergroupIds($group_id);
++
++  /**
++   * Get all (inherited) group roles for a group and a user account.
++   *
++   * Check if the account is a direct member of any subgroups/supergroups of
++   * the group. For each subgroup/supergroup, we check which roles we are
++   * allowed to map. We map the roles up/down for each relation in the full
++   * path between the original group and the subgroup/supergroup. The result
++   * contains a list of all roles we have inherited from 1 or more subgroups or
++   * supergroups.
++   *
++   * @param \Drupal\group\Entity\GroupInterface $group
++   *   The group for which inherited roles will be loaded.
++   * @param \Drupal\Core\Session\AccountInterface $account
++   *   An account to map only the roles for a specific user.
++   *
++   * @return \Drupal\group\Entity\GroupRoleInterface[]
++   *   An array of group roles for the given group.
++   */
++  public function getInheritedGroupRoles(GroupInterface $group, AccountInterface $account);
++
++}
+diff --git a/modules/ggroup/src/Plugin/GroupContentEnabler/Subgroup.php b/modules/ggroup/src/Plugin/GroupContentEnabler/Subgroup.php
+new file mode 100644
+index 0000000..1bb776c
+--- /dev/null
++++ b/modules/ggroup/src/Plugin/GroupContentEnabler/Subgroup.php
+@@ -0,0 +1,229 @@
++<?php
++
++namespace Drupal\ggroup\Plugin\GroupContentEnabler;
++
++use Drupal\group\Entity\GroupInterface;
++use Drupal\group\Plugin\GroupContentEnablerBase;
++use Drupal\group\Entity\GroupType;
++use Drupal\Core\Url;
++use Drupal\Core\Form\FormStateInterface;
++use Symfony\Component\Routing\Route;
++
++/**
++ * Provides a content enabler for subgroups.
++ *
++ * @GroupContentEnabler(
++ *   id = "subgroup",
++ *   label = @Translation("Subgroup"),
++ *   description = @Translation("Adds groups to groups."),
++ *   entity_type_id = "group",
++ *   entity_access = TRUE,
++ *   pretty_path_key = "group",
++ *   deriver = "Drupal\ggroup\Plugin\GroupContentEnabler\SubgroupDeriver"
++ * )
++ */
++class Subgroup extends GroupContentEnablerBase {
++
++  /**
++   * Retrieves the group type this plugin supports.
++   *
++   * @return \Drupal\group\Entity\GroupTypeInterface
++   *   The group type this plugin supports.
++   */
++  protected function getSubgroupType() {
++    return GroupType::load($this->getEntityBundle());
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getGroupOperations(GroupInterface $group) {
++    $account = \Drupal::currentUser();
++    $plugin_id = $this->getPluginId();
++    $type = $this->getEntityBundle();
++    $operations = [];
++
++    if ($group->hasPermission("create $plugin_id entity", $account)) {
++      $route_params = ['group' => $group->id(), 'group_type' => $this->getEntityBundle()];
++      $operations["ggroup_create-$type"] = [
++        'title' => $this->t('Create @type', ['@type' => $this->getSubgroupType()->label()]),
++        'url' => new Url('entity.group_content.subgroup_add_form', $route_params),
++        'weight' => 35,
++      ];
++    }
++
++    return $operations;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getPermissions() {
++    $permissions = parent::getPermissions();
++
++    // Override default permission titles and descriptions.
++    $plugin_id = $this->getPluginId();
++    $type_arg = ['%group_type' => $this->getSubgroupType()->label()];
++    $defaults = [
++      'title_args' => $type_arg,
++      'description' => 'Only applies to %group_type subgroups that belong to this group.',
++      'description_args' => $type_arg,
++    ];
++
++    $permissions["view $plugin_id entity"] = [
++      'title' => '%group_type: View subgroups',
++    ] + $defaults;
++
++    $permissions["create $plugin_id entity"] = [
++      'title' => '%group_type: Create new subgroups',
++      'description' => 'Allows you to create %group_type subgroups that immediately belong to this group.',
++      'description_args' => $type_arg,
++    ] + $defaults;
++
++    $permissions["update own $plugin_id entity"] = [
++      'title' => '%group_type: Edit own subgroups',
++    ] + $defaults;
++
++    $permissions["update any $plugin_id entity"] = [
++      'title' => '%group_type: Edit any subgroup',
++    ] + $defaults;
++
++    $permissions["delete own $plugin_id entity"] = [
++      'title' => '%group_type: Delete own subgroups',
++    ] + $defaults;
++
++    $permissions["delete any $plugin_id entity"] = [
++      'title' => '%group_type: Delete any subgroup',
++    ] + $defaults;
++
++    // Use the same title prefix to keep permissions sorted properly.
++    $prefix = '%group_type Relationship:';
++    $defaults = [
++      'title_args' => $type_arg,
++      'description' => 'Only applies to %group_type subgroup relations that belong to this group.',
++      'description_args' => $type_arg,
++    ];
++
++    $permissions["view $plugin_id content"] = [
++      'title' => "$prefix View subgroup relations",
++    ] + $defaults;
++
++    $permissions["create $plugin_id content"] = [
++      'title' => "$prefix Add subgroup relation",
++      'description' => 'Allows you to relate an existing %entity_type entity to the group as a subgroup.',
++    ] + $defaults;
++
++    $permissions["update own $plugin_id content"] = [
++      'title' => "$prefix Edit own subgroup relations",
++    ] + $defaults;
++
++    $permissions["update any $plugin_id content"] = [
++      'title' => "$prefix Edit any subgroup relation",
++    ] + $defaults;
++
++    $permissions["delete own $plugin_id content"] = [
++      'title' => "$prefix Delete own subgroup relations",
++    ] + $defaults;
++
++    $permissions["delete any $plugin_id content"] = [
++      'title' => "$prefix Delete any subgroup relation",
++    ] + $defaults;
++
++    return $permissions;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function defaultConfiguration() {
++    $config = parent::defaultConfiguration();
++
++    $config['entity_cardinality'] = 1;
++
++    // Default parent_role_mapping.
++    if ($this->getGroupType()) {
++      $parent_roles = $this->getGroupType()->getRoles();
++      foreach ($parent_roles as $role_id => $role) {
++        $config['parent_role_mapping'][$role_id] = NULL;
++      }
++    }
++
++    // Default child_role_mapping.
++    if ($this->getSubgroupType()) {
++      $child_roles = $this->getSubgroupType()->getRoles();
++      foreach ($child_roles as $role_id => $role) {
++        $config['child_role_mapping'][$role_id] = NULL;
++      }
++    }
++
++    return $config;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
++    $form = parent::buildConfigurationForm($form, $form_state);
++
++    // Disable the entity cardinality field as the functionality of this module
++    // relies on a cardinality of 1. We don't just hide it, though, to keep a UI
++    // that's consistent with other content enabler plugins.
++    $info = $this->t("This field has been disabled by the plugin to guarantee the functionality that's expected of it.");
++    $form['entity_cardinality']['#disabled'] = TRUE;
++    $form['entity_cardinality']['#description'] .= '<br /><em>' . $info . '</em>';
++
++    // We create form field to map parent roles to child roles, and map child
++    // roles to parent roles. This allow for permissions/membership to
++    // propogate up/down.
++    $parent_roles = $this->getGroupType()->getRoles();
++    $parent_options = [];
++    foreach ($parent_roles as $role_id => $role) {
++      $parent_options[$role_id] = $role->label();
++    }
++
++    $child_roles = $this->getSubgroupType()->getRoles();
++    $child_options = [];
++    foreach ($child_roles as $role_id => $role) {
++      $child_options[$role_id] = $role->label();
++    }
++
++    $form['parent_role_mapping'] = [
++      '#type' => 'fieldset',
++      '#title' => $this->t('Map group roles to subgroup roles to allow group membership and permissions to be inherited by the subgroup.'),
++      '#tree' => TRUE,
++    ];
++    foreach ($parent_options as $roleid => $rolename) {
++      $form['parent_role_mapping'][$roleid] = [
++        '#type' => 'select',
++        '#title' => $rolename,
++        '#options' => $child_options,
++        "#empty_option" => $this->t('- None -'),
++        '#default_value' => $this->configuration['parent_role_mapping'][$roleid],
++      ];
++    }
++    $form['child_role_mapping'] = [
++      '#type' => 'fieldset',
++      '#title' => $this->t('Map subgroup roles to group roles to allow subgroup membership and permissions to be propogated to the group.'),
++      '#tree' => TRUE,
++    ];
++    foreach ($child_options as $roleid => $rolename) {
++      $form['child_role_mapping'][$roleid] = [
++        '#type' => 'select',
++        '#title' => $rolename,
++        '#options' => $parent_options,
++        "#empty_option" => $this->t('- None -'),
++        '#default_value' => $this->configuration['child_role_mapping'][$roleid],
++      ];
++    }
++
++    return $form;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function calculateDependencies() {
++    return ['config' => ['group.type.' . $this->getEntityBundle()]];
++  }
++
++}
+diff --git a/modules/ggroup/src/Plugin/GroupContentEnabler/SubgroupDeriver.php b/modules/ggroup/src/Plugin/GroupContentEnabler/SubgroupDeriver.php
+new file mode 100644
+index 0000000..16ced80
+--- /dev/null
++++ b/modules/ggroup/src/Plugin/GroupContentEnabler/SubgroupDeriver.php
+@@ -0,0 +1,27 @@
++<?php
++
++namespace Drupal\ggroup\Plugin\GroupContentEnabler;
++
++use Drupal\group\Entity\GroupType;
++use Drupal\Component\Plugin\Derivative\DeriverBase;
++
++class SubgroupDeriver extends DeriverBase {
++
++  /**
++   * {@inheritdoc}.
++   */
++  public function getDerivativeDefinitions($base_plugin_definition) {
++    foreach (GroupType::loadMultiple() as $name => $group_type) {
++      $label = $group_type->label();
++
++      $this->derivatives[$name] = [
++        'entity_bundle' => $name,
++        'label' => t('Subgroup') . " ($label)",
++        'description' => t('Adds %type groups to groups both publicly and privately.', ['%type' => $label]),
++      ] + $base_plugin_definition;
++    }
++
++    return $this->derivatives;
++  }
++
++}
+diff --git a/modules/ggroup/src/Plugin/Validation/Constraint/GroupSubgroupConstraint.php b/modules/ggroup/src/Plugin/Validation/Constraint/GroupSubgroupConstraint.php
+new file mode 100644
+index 0000000..8b251ff
+--- /dev/null
++++ b/modules/ggroup/src/Plugin/Validation/Constraint/GroupSubgroupConstraint.php
+@@ -0,0 +1,20 @@
++<?php
++
++namespace Drupal\ggroup\Plugin\Validation\Constraint;
++
++use Symfony\Component\Validator\Constraint;
++
++/**
++ * Validation constraint for the group subgroup reference.
++ *
++ * @Constraint(
++ *   id = "GroupSubgroup",
++ *   label = @Translation("Group subgroup", context = "Validation"),
++ *   type = {"entity"}
++ * )
++ */
++class GroupSubgroupConstraint extends Constraint {
++
++  public $message = '%parent_group_label is already a subgroup of the group %child_group_label. Adding %child_group_label as a subgroup will cause a circular reference.';
++
++}
+diff --git a/modules/ggroup/src/Plugin/Validation/Constraint/GroupSubgroupConstraintValidator.php b/modules/ggroup/src/Plugin/Validation/Constraint/GroupSubgroupConstraintValidator.php
+new file mode 100644
+index 0000000..c035051
+--- /dev/null
++++ b/modules/ggroup/src/Plugin/Validation/Constraint/GroupSubgroupConstraintValidator.php
+@@ -0,0 +1,79 @@
++<?php
++
++namespace Drupal\ggroup\Plugin\Validation\Constraint;
++
++use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
++use Drupal\ggroup\GroupHierarchyManagerInterface;
++use Drupal\group\Entity\GroupContentInterface;
++use Symfony\Component\DependencyInjection\ContainerInterface;
++use Symfony\Component\Validator\Constraint;
++use Symfony\Component\Validator\ConstraintValidator;
++
++/**
++ * Validates the GroupSubgroup constraint.
++ */
++class GroupSubgroupConstraintValidator extends ConstraintValidator implements ContainerInjectionInterface {
++
++  /**
++   * The group graph storage service.
++   *
++   * @var \Drupal\ggroup\Graph\GroupGraphStorageInterface
++   */
++  protected $groupGraphStorage;
++
++  /**
++   * The group hierarchy manager.
++   *
++   * @var \Drupal\ggroup\GroupHierarchyManagerInterface
++   */
++  protected $groupHierarchyManager;
++
++  /**
++   * Constructs a GroupSubgroupConstraintValidator object.
++   *
++   * @param \Drupal\ggroup\GroupHierarchyManagerInterface $group_hierarchy_manager
++   *   The group hierarchy manager.
++   */
++  public function __construct(GroupHierarchyManagerInterface $group_hierarchy_manager) {
++    $this->groupHierarchyManager = $group_hierarchy_manager;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function create(ContainerInterface $container) {
++    return new static(
++      $container->get('ggroup.group_hierarchy_manager')
++    );
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function validate($entity, Constraint $constraint) {
++    if (!isset($entity)) {
++      return;
++    }
++
++    if (!($entity instanceof GroupContentInterface)) {
++      return;
++    }
++
++    if ($entity->getContentPlugin()->getEntityTypeId() !== 'group') {
++      return;
++    }
++
++    $parent_group = $entity->getGroup();
++    $child_group = $entity->getEntity();
++
++    // If the child group already has the parent group as a subgroup, then
++    // adding the relationship will cause a circular reference.
++    if ($parent_group && $child_group && $this->groupHierarchyManager->groupHasSubgroup($child_group, $parent_group)) {
++      $this->context->buildViolation($constraint->message)
++        ->setParameter('%parent_group_label', $parent_group->label())
++        ->setParameter('%child_group_label', $child_group->label())
++        ->addViolation();
++    }
++  }
++
++}
+diff --git a/modules/ggroup/src/Plugin/views/argument/GroupIdDepth.php b/modules/ggroup/src/Plugin/views/argument/GroupIdDepth.php
+new file mode 100644
+index 0000000..faa2c6c
+--- /dev/null
++++ b/modules/ggroup/src/Plugin/views/argument/GroupIdDepth.php
+@@ -0,0 +1,114 @@
++<?php
++
++namespace Drupal\ggroup\Plugin\views\argument;
++
++use Drupal\Core\Form\FormStateInterface;
++use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
++use Drupal\views\Plugin\views\argument\ArgumentPluginBase;
++use Drupal\views\Views;
++
++/**
++ * Argument handler for group content with depth.
++ *
++ * @ingroup views_argument_handlers
++ *
++ * @ViewsArgument("group_id_depth")
++ */
++class GroupIdDepth extends ArgumentPluginBase implements ContainerFactoryPluginInterface {
++
++  /**
++   * @inheritdoc
++   */
++  protected function defineOptions() {
++    $options = parent::defineOptions();
++
++    $options['depth'] = ['default' => -1];
++
++    return $options;
++  }
++
++  /**
++   * @inheritdoc
++   */
++  public function buildOptionsForm(&$form, FormStateInterface $form_state) {
++    $form['depth'] = [
++      '#type' => 'checkboxes',
++      '#title' => $this->t('Depth'),
++      '#default_value' => $this->options['depth'],
++      '#options' => [
++        '-1' => $this->t('Content from target group'),
++        '0' => $this->t('Subgroup 1 level'),
++        '1' => $this->t('Subgroup 2 level'),
++        '2' => $this->t('Subgroup 3 level'),
++      ],
++      '#description' => $this->t('The depth will match group content with hierarchy. So if you have country group "Germany" with project group "Germany project" as subgroup, and selected "Content from parent group" + "Subgroup 1 level" that will result to filter all group content from "Germany" and "Germany project" groups'),
++    ];
++
++    parent::buildOptionsForm($form, $form_state);
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function submitOptionsForm(&$form, FormStateInterface $form_state) {
++    parent::submitOptionsForm($form, $form_state);
++
++    $depth_value = $form_state->getValue(['options', 'depth']);
++    $form_state->setValue(['options', 'depth'], array_filter($depth_value, function ($value) { return $value !== 0; }));
++  }
++
++  /**
++   * @inheritdoc
++   */
++  protected function defaultActions($which = NULL) {
++    if ($which) {
++      if (in_array($which, ['ignore', 'not found', 'empty', 'default'])) {
++        return parent::defaultActions($which);
++      }
++      return;
++    }
++    $actions = parent::defaultActions();
++    unset($actions['summary asc']);
++    unset($actions['summary desc']);
++    unset($actions['summary asc by count']);
++    unset($actions['summary desc by count']);
++    return $actions;
++  }
++
++  /**
++   * @inheritdoc
++   */
++  public function query($group_by = FALSE) {
++    $table = $this->ensureMyTable();
++
++    $definition = [
++      'table' => 'group_graph',
++      'field' => 'end_vertex',
++      'left_table' => $table,
++      'left_field' => 'gid',
++    ];
++
++    $join = Views::pluginManager('join')->createInstance('standard', $definition);
++    $this->query->addRelationship('group_graph', $join, 'group_graph');
++
++    $group = $this->query->setWhereGroup('OR', 'group_id_depth');
++
++    foreach ($this->options['depth'] as $depth) {
++      if ($depth === '-1') {
++        $this->query->addWhereExpression($group, "$table.gid = :gid", [':gid' => $this->argument]);
++      }
++      else {
++        $this->query->addWhereExpression(
++          $group,
++          "group_graph.start_vertex = :gid AND group_graph.hops = :hops_$depth",
++          [
++            ':gid' => $this->argument,
++            ":hops_$depth" => $depth
++          ]
++        );
++      }
++
++    }
++  }
++
++}
+diff --git a/modules/ggroup/src/Routing/SubgroupRouteProvider.php b/modules/ggroup/src/Routing/SubgroupRouteProvider.php
+new file mode 100644
+index 0000000..038fbcf
+--- /dev/null
++++ b/modules/ggroup/src/Routing/SubgroupRouteProvider.php
+@@ -0,0 +1,59 @@
++<?php
++
++namespace Drupal\ggroup\Routing;
++
++use Drupal\group\Entity\GroupType;
++use Symfony\Component\Routing\Route;
++
++/**
++ * Provides routes for subgroup content.
++ */
++class SubgroupRouteProvider {
++
++  /**
++   * Provides the shared collection route for subgroup plugins.
++   */
++  public function getRoutes() {
++    $routes = $plugin_ids = $permissions_add = $permissions_create = [];
++
++    foreach (GroupType::loadMultiple() as $name => $group_type) {
++      $plugin_id = "subgroup:$name";
++
++      $plugin_ids[] = $plugin_id;
++      $permissions_add[] = "create $plugin_id content";
++      $permissions_create[] = "create $plugin_id entity";
++    }
++
++    // If there are no group types yet, we cannot have any plugin IDs and should
++    // therefore exit early because we cannot have any routes for them either.
++    if (empty($plugin_ids)) {
++      return $routes;
++    }
++
++    // @todo Conditionally (see above) alter GroupContent info to use this path.
++    $routes['entity.group_content.subgroup_relate_page'] = new Route('group/{group}/subgroup/add');
++    $routes['entity.group_content.subgroup_relate_page']
++      ->setDefaults([
++        '_title' => 'Relate subgroup',
++        '_controller' => '\Drupal\ggroup\Controller\SubgroupController::addPage',
++      ])
++      ->setRequirement('_group_permission', implode('+', $permissions_add))
++      ->setRequirement('_group_installed_content', implode('+', $plugin_ids))
++      ->setOption('_group_operation_route', TRUE);
++
++    // @todo Conditionally (see above) alter GroupContent info to use this path.
++    $routes['entity.group_content.subgroup_add_page'] = new Route('group/{group}/subgroup/create');
++    $routes['entity.group_content.subgroup_add_page']
++      ->setDefaults([
++        '_title' => 'Create subgroup',
++        '_controller' => '\Drupal\ggroup\Controller\SubgroupWizardController::addPage',
++        'create_mode' => TRUE,
++      ])
++      ->setRequirement('_group_permission', implode('+', $permissions_create))
++      ->setRequirement('_group_installed_content', implode('+', $plugin_ids))
++      ->setOption('_group_operation_route', TRUE);
++
++    return $routes;
++  }
++
++}
+diff --git a/modules/ggroup/tests/modules/ggroup_test_config/config/install/group.content_type.default-subgroup-subgroup.yml b/modules/ggroup/tests/modules/ggroup_test_config/config/install/group.content_type.default-subgroup-subgroup.yml
+new file mode 100644
+index 0000000..0934755
+--- /dev/null
++++ b/modules/ggroup/tests/modules/ggroup_test_config/config/install/group.content_type.default-subgroup-subgroup.yml
+@@ -0,0 +1,14 @@
++langcode: en
++status: true
++dependencies:
++  config:
++    - group.type.default
++    - group.type.subgroup
++id: default-subgroup-subgroup
++label: 'Default group: Subgroup'
++description: 'Adds <em class="placeholder">Subgroup</em> groups to groups both publicly and privately.'
++group_type: default
++content_plugin: 'subgroup:subgroup'
++plugin_config:
++  group_cardinality: 0
++  entity_cardinality: 1
+diff --git a/modules/ggroup/tests/modules/ggroup_test_config/config/install/group.type.subgroup.yml b/modules/ggroup/tests/modules/ggroup_test_config/config/install/group.type.subgroup.yml
+new file mode 100644
+index 0000000..9853bd2
+--- /dev/null
++++ b/modules/ggroup/tests/modules/ggroup_test_config/config/install/group.type.subgroup.yml
+@@ -0,0 +1,6 @@
++langcode: en
++status: true
++dependencies: {  }
++id: subgroup
++label: 'Subgroup'
++description: 'Subgroup description.'
+diff --git a/modules/ggroup/tests/modules/ggroup_test_config/ggroup_test_config.info.yml b/modules/ggroup/tests/modules/ggroup_test_config/ggroup_test_config.info.yml
+new file mode 100644
+index 0000000..7730d21
+--- /dev/null
++++ b/modules/ggroup/tests/modules/ggroup_test_config/ggroup_test_config.info.yml
+@@ -0,0 +1,6 @@
++name: 'Group configuration tests'
++description: 'Support module for group configuration tests.'
++package: 'Testing'
++type: 'module'
++version: '1.0'
++core: '8.x'
+diff --git a/modules/ggroup/tests/src/Kernel/SubgroupTest.php b/modules/ggroup/tests/src/Kernel/SubgroupTest.php
+new file mode 100644
+index 0000000..8e3626c
+--- /dev/null
++++ b/modules/ggroup/tests/src/Kernel/SubgroupTest.php
+@@ -0,0 +1,129 @@
++<?php
++
++namespace Drupal\Tests\ggroup\Kernel;
++
++use Drupal\group\Entity\Group;
++use Drupal\group\Entity\GroupContent;
++use Drupal\Tests\group\Kernel\GroupKernelTestBase;
++
++/**
++ * Tests the behavior of subgroup creators.
++ *
++ * @group group
++ */
++class SubgroupTest extends GroupKernelTestBase {
++  /**
++   * Modules to enable.
++   *
++   * @var array
++   */
++  public static $modules = ['ggroup', 'ggroup_test_config'];
++
++  /**
++   * The account to use as the group creator.
++   *
++   * @var \Drupal\group\Entity\GroupTypeInterface
++   */
++  protected $groupType;
++
++  /**
++   * The account to use as the group creator.
++   *
++   * @var \Drupal\group\Entity\GroupTypeInterface
++   */
++  protected $subGroupType;
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function setUp() {
++    parent::setUp();
++    
++    $this->installConfig(['ggroup_test_config']);
++    $this->installSchema('ggroup', 'group_graph');
++
++    $this->entityTypeManager = $this->container->get('entity_type.manager');
++
++    $this->groupType = $this->entityTypeManager->getStorage('group_type')->load('default');
++    $this->subGroupType = $this->entityTypeManager->getStorage('group_type')->load('subgroup');
++  }
++
++  /**
++   * Tests the addition of a group to a group.
++   */
++  public function testCreateSubgroup() {
++    list($group, $subGroup) = $this->addGroup();
++    $this->assertNotEmpty($group->getContentByEntityId('subgroup:' . $this->subGroupType->id(), $subGroup->id()), 'Subgroup is group content');
++  }
++
++  /**
++   * Tests the removing subgroup from group.
++   */
++  public function testDeleteSubgroupFromGroupContent() {
++    /* @var Group $subGroup */
++    list($group, $sub_group) = $this->addGroup();
++
++    foreach (GroupContent::loadByEntity($sub_group) as $group_content) {
++      $group_content->delete();
++
++      $this->assertEquals(\Drupal::service('ggroup.group_hierarchy_manager')->groupHasSubgroup($group, $sub_group), FALSE, 'Subgroup is removed');
++    }
++
++  }
++
++  /**
++   * Tests the removing subgroup.
++   */
++  public function testDeleteSubgroup() {
++    list($group, $sub_group) = $this->addGroup();
++
++    /* @var Group $subGroup */
++    $sub_group->delete();
++
++    $this->assertEquals(\Drupal::service('ggroup.group_hierarchy_manager')->groupHasSubgroup($group, $sub_group), FALSE, 'Subgroup is removed');
++  }
++
++  /**
++   * Create group and attach subgroup to group.
++   * 
++   * @return array
++   *  Return group and subgroup.
++   */
++  private function addGroup() {
++    /* @var Group $group */
++    $group = $this->createGroupByType($this->groupType->id(), ['uid' => $this->getCurrentUser()->id()]);
++    /* @var Group $subGroup */
++    $sub_group = $this->createGroupByType($this->subGroupType->id(), ['uid' => $this->getCurrentUser()->id()]);
++
++
++    $group->addContent($sub_group, 'subgroup:' . $this->subGroupType->id());
++
++    return [$group, $sub_group];
++  }
++
++  /**
++   * Creates a group by type.
++   *
++   * @param string $type
++   *   Group type.
++   *
++   * @param array $values
++   *   (optional) The values used to create the entity.
++   *
++   * @return Group
++   *   The created group entity.
++   */
++  private function createGroupByType($type, $values = []) {
++    /* @var Group $group */
++    $group = $this->entityTypeManager->getStorage('group')->create($values + [
++        'type' => $type,
++        'label' => $this->randomMachineName(),
++      ]);
++
++    $group->enforceIsNew();
++    $group->save();
++
++    return $group;
++  }
++
++}
+diff --git a/src/Entity/Group.php b/src/Entity/Group.php
+index 0bbea96..f47de9c 100644
+--- a/src/Entity/Group.php
++++ b/src/Entity/Group.php
+@@ -9,6 +9,8 @@ use Drupal\Core\Entity\EntityTypeInterface;
+ use Drupal\Core\Entity\EntityChangedTrait;
+ use Drupal\Core\Entity\EntityStorageInterface;
+ use Drupal\Core\Session\AccountInterface;
++use Drupal\group\Event\GroupEvents;
++use Drupal\group\Event\GroupPermissionEvent;
+ use Drupal\user\UserInterface;
+ 
+ /**
+@@ -96,6 +98,15 @@ class Group extends ContentEntityBase implements GroupInterface {
+   }
+ 
+   /**
++   * Gets the event dispatcher.
++   *
++   * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
++   */
++  protected function eventDispatcher() {
++    return \Drupal::service('event_dispatcher');
++  }
++
++  /**
+    * {@inheritdoc}
+    */
+   public function getCreatedTime() {
+@@ -238,6 +249,12 @@ class Group extends ContentEntityBase implements GroupInterface {
+       }
+     }
+ 
++    /** @var \Drupal\group\Event\GroupPermissionEvent $permission_event */
++    $permission_event = $this->eventDispatcher()->dispatch(GroupEvents::PERMISSION, new GroupPermissionEvent($permission, $this, $account));
++    if ($permission_event->hasPermission()) {
++      return TRUE;
++    }
++
+     // If no role had the requested permission, we deny access.
+     return FALSE;
+   }
+diff --git a/src/Event/GroupEvents.php b/src/Event/GroupEvents.php
+new file mode 100644
+index 0000000..d0bd02c
+--- /dev/null
++++ b/src/Event/GroupEvents.php
+@@ -0,0 +1,27 @@
++<?php
++
++namespace Drupal\group\Event;
++
++/**
++ * Defines events for the group module.
++ *
++ * @see \Drupal\group\Event\GroupPermissionEvent
++ */
++final class GroupEvents {
++
++  /**
++   * Name of the event fired when a group permission is checked for a user.
++   *
++   * This event allows modules to add a permission for a user to a group. The
++   * event listener method receives a \Drupal\group\Event\GroupPermissionEvent
++   * instance.
++   *
++   * @Event
++   *
++   * @see \Drupal\group\Event\GroupPermissionEvent
++   *
++   * @var string
++   */
++  const PERMISSION = 'group.permission';
++
++}
+diff --git a/src/Event/GroupPermissionEvent.php b/src/Event/GroupPermissionEvent.php
+new file mode 100644
+index 0000000..2cc9222
+--- /dev/null
++++ b/src/Event/GroupPermissionEvent.php
+@@ -0,0 +1,108 @@
++<?php
++
++namespace Drupal\group\Event;
++
++use Drupal\Core\Session\AccountInterface;
++use Drupal\group\Entity\GroupInterface;
++use Symfony\Component\EventDispatcher\Event;
++
++/**
++ * Allow event listeners to alter the authmap data that will get stored.
++ */
++class GroupPermissionEvent extends Event {
++
++  /**
++   * The permission to check.
++   *
++   * @var string
++   */
++  protected $permission;
++
++  /**
++   * The group for which to check the permission.
++   *
++   * @var \Drupal\group\Entity\GroupInterface
++   */
++  protected $group;
++
++  /**
++   * The account for which to check the permission.
++   *
++   * @var \Drupal\Core\Session\AccountInterface
++   */
++  protected $account;
++
++  /**
++   * Whether the account should have the permission in the group.
++   *
++   * @var bool
++   */
++  protected $hasPermission = FALSE;
++
++  /**
++   * Constructs a group permission event object.
++   *
++   * @param string $permission
++   *   The permission to check.
++   * @param \Drupal\group\Entity\GroupInterface $group
++   *   The group for which to check the permission.
++   * @param \Drupal\Core\Session\AccountInterface $account
++   *   The account for which to check the permission.
++   */
++  public function __construct($permission, GroupInterface $group, AccountInterface $account) {
++    $this->permission = $permission;
++    $this->group = $group;
++    $this->account = $account;
++  }
++
++  /**
++   * Gets the permission to check.
++   *
++   * @return string
++   *   The name of the permission to check.
++   */
++  public function getPermission() {
++    return $this->permission;
++  }
++
++  /**
++   * Get the group for which to check the permission.
++   *
++   * @return \Drupal\group\Entity\GroupInterface
++   *   The group for which to check the permission.
++   */
++  public function getGroup() {
++    return $this->group;
++  }
++
++  /**
++   * Get the account for which to check the permission.
++   *
++   * @return \Drupal\Core\Session\AccountInterface
++   *   The account for which to check the permission.
++   */
++  public function getAccount() {
++    return $this->account;
++  }
++
++  /**
++   * Returns whether the user has the permission on the group.
++   *
++   * @return bool
++   *   Whether the user has the permission on the group.
++   */
++  public function hasPermission() {
++    return $this->hasPermission;
++  }
++
++  /**
++   * Sets that the user should have the permission.
++   *
++   * @param bool $has_permission
++   *   Whether the user should have the permission.
++   */
++  public function setPermission($has_permission) {
++    $this->hasPermission = $has_permission;
++  }
++
++}
+

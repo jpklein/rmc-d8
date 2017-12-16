@@ -20,3 +20,28 @@ function rmc_base_form_install_configure_form_alter(&$form, FormStateInterface $
   // $form['admin_account']['account']['pass']['#default_value'] = 'password';
   // $form['update_notifications']['update_status_module']['#default_value'] = array(1);
 }
+
+/**
+ * Returns an array of tasks to be performed by an installation profile.
+ */
+function rmc_base_install_tasks(&$install_state) {
+  return array(
+    'rmc_base_batch_processing' => array(
+      'display_name' => t('Install additional modules'),
+      'display' => TRUE,
+      'type' => 'batch',
+      'run' => INSTALL_TASK_RUN_IF_NOT_COMPLETED,
+    )
+  );
+}
+
+function rmc_base_batch_processing() {
+  return [
+    'operations' => [
+      [ '_install_module_batch', [ 'gnode', 'Groups Node' ] ],
+      [ '_install_module_batch', [ 'ggroup', 'Subgroups' ] ],
+    ],
+    'title' => 'Installing additional modules',
+    'error_message' => t('The installation has encountered an error.'),
+  ];
+}
