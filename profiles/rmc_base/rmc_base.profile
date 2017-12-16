@@ -26,16 +26,17 @@ function rmc_base_form_install_configure_form_alter(&$form, FormStateInterface $
  */
 function rmc_base_install_tasks(&$install_state) {
   return array(
-    'rmc_base_batch_processing' => array(
+    'rmc_base_additional_modules_task' => array(
       'display_name' => t('Install additional modules'),
       'display' => TRUE,
       'type' => 'batch',
       'run' => INSTALL_TASK_RUN_IF_NOT_COMPLETED,
-    )
+    ),
+    'rmc_base_post_installation_task' => array(),
   );
 }
 
-function rmc_base_batch_processing() {
+function rmc_base_additional_modules_task() {
   return [
     'operations' => [
       [ '_install_module_batch', [ 'gnode', 'Groups Node' ] ],
@@ -44,4 +45,8 @@ function rmc_base_batch_processing() {
     'title' => 'Installing additional modules',
     'error_message' => t('The installation has encountered an error.'),
   ];
+}
+
+function rmc_base_post_installation_task() {
+  node_access_rebuild(TRUE);
 }

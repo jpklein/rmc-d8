@@ -1,7 +1,7 @@
 name: RMC Base
 type: profile
 description: 'Install with required modules, configuration & target entities for migration of cfketteringfamilies.com to D8'
-version: 0.4-dev
+version: 0.5-dev
 core: 8.x
 distribution:
   name: RMC Base
@@ -42,6 +42,13 @@ dependencies:
   - views_ui
   - tour
   - automated_cron
+  # Migrate
+  - migrate
+  - migrate_drupal
+  - migrate_drupal_ui
+  - migrate_plus
+  - migrate_tools
+  - migrate_upgrade
   # Contrib
   - group
   # Contrib in separate install task (@see rmc_base.profile)
