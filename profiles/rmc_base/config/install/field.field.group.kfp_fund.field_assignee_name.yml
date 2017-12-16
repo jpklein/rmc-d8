@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.field_assignee_name
+    - group.type.kfp_fund
+id: group.kfp_fund.field_assignee_name
+field_name: field_assignee_name
+entity_type: group
+bundle: kfp_fund
+label: 'Assignee Name'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: kfip
+label: Taxable Entity
+description: 'Has Invitee Name field. May contain Users, Affiliation Groups, Meetings & Documents'
+creator_membership: false
+creator_wizard: false
+creator_roles: {  }

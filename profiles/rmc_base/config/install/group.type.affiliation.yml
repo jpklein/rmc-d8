@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: affiliation
+label: Affiliation
+description: 'Has Invitee Name field. May contain Users, Meetings & Documents'
+creator_membership: false
+creator_wizard: false
+creator_roles: {  }

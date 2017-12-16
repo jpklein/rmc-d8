@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: kfp_fund
+label: KFP Fund
+description: 'Has Assignee Name & Payor Name fields. May contain Users, Proposals, & Documents'
+creator_membership: false
+creator_wizard: false
+creator_roles: {  }

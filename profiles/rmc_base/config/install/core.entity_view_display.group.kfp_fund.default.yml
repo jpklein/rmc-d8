@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.group.kfp_fund.field_assignee_name
+    - field.field.group.kfp_fund.field_payor_name
+    - group.type.kfp_fund
+id: group.kfp_fund.default
+targetEntityType: group
+bundle: kfp_fund
+mode: default
+content:
+  label:
+    label: hidden
+    type: string
+    weight: -5
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+hidden:
+  changed: true
+  created: true
+  field_assignee_name: true
+  field_payor_name: true
+  uid: true

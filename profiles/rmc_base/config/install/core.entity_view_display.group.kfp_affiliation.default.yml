@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.group.kfp_affiliation.field_assignee_name
+    - field.field.group.kfp_affiliation.field_invitee_name
+    - group.type.kfp_affiliation
+id: group.kfp_affiliation.default
+targetEntityType: group
+bundle: kfp_affiliation
+mode: default
+content:
+  label:
+    label: hidden
+    type: string
+    weight: -5
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+hidden:
+  changed: true
+  created: true
+  field_assignee_name: true
+  field_invitee_name: true
+  uid: true

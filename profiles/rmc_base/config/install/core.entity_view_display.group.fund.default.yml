@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.group.fund.field_invitee_name
+    - field.field.group.fund.field_payor_name
+    - group.type.fund
+id: group.fund.default
+targetEntityType: group
+bundle: fund
+mode: default
+content:
+  label:
+    label: hidden
+    type: string
+    weight: -5
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+hidden:
+  changed: true
+  created: true
+  field_invitee_name: true
+  field_payor_name: true
+  uid: true

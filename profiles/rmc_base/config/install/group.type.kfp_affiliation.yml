@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: kfp_affiliation
+label: KFP Affiliation
+description: 'Has Assignee Name & Invitee Name fields. May contain Users, Affiliation Groups, KFP Fund Groups, Fund Groups, Proposals, Meetings, & Documents'
+creator_membership: false
+creator_wizard: false
+creator_roles: {  }

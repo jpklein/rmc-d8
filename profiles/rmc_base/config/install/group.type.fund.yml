@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: fund
+label: Fund
+description: 'Has Invitee Name & Payor Name fields. May contain Users, KFP Affiliation Groups, KFP Fund Groups, Fund Groups, Meetings, & Documents'
+creator_membership: false
+creator_wizard: false
+creator_roles: {  }
