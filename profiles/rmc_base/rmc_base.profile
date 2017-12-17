@@ -41,6 +41,7 @@ function rmc_base_additional_modules_task() {
     'operations' => [
       [ '_install_module_batch', [ 'gnode', 'Groups Node' ] ],
       [ '_install_module_batch', [ 'ggroup', 'Subgroups' ] ],
+      [ '_install_module_batch', [ 'migrate_drupal_ui', 'Migrate Drupal UI' ] ],
     ],
     'title' => 'Installing additional modules',
     'error_message' => t('The installation has encountered an error.'),
@@ -52,16 +53,40 @@ function rmc_base_post_installation_task(&$install_state) {
   file_unmanaged_save_data('{}', 'private://secrets.json', FILE_EXISTS_ERROR);
   $query = array('continue' => 1);
   return array(
-    '#title' => 'Connect to the source instance',
-    'codeblock' => array(
+    '#title' => 'Prepare migration',
+    '#markup' => 'copy/paste the following to your local terminal',
+    'codeblock1' => array(
       '#type' => 'textarea',
-      '#title' => 'copy/paste the following to your local terminal:',
+      '#title' => '[optional] reestablish a terminus session',
       '#value' => ''
         ."terminus auth:login --email=jpklein@gmail.com;\n"
-        ."export D7_MYSQL_URL=\$(terminus connection:info --field=mysql_url kfp.sandbox);\n"
-        ."terminus secrets:set rmc-testbed.dev migrate_source_db__url \$D7_MYSQL_URL;\n"
-        ."terminus remote:drush rmc-testbed.dev -- migrate-upgrade --legacy-db-key=migrate --configure-only\n"
         .'',
+      '#rows' => 1,
+    ),
+    'codeblock2' => array(
+      '#type' => 'textarea',
+      '#title' => 'set up a connection to the source db',
+      '#value' => ''
+        ."export D7_MYSQL_URL=\$(terminus connection:info --field=mysql_url rmc-migrate-source.dev);\n"
+        ."terminus secrets:set rmc-testbed.dev migrate_source_db__url \$D7_MYSQL_URL;\n"
+        .'',
+      '#rows' => 4,
+    ),
+    'codeblock3' => array(
+      '#type' => 'textarea',
+      '#title' => '[optional] generate default migrations',
+      '#value' => ''
+        ."terminus remote:drush rmc-testbed.dev -- migrate-upgrade --legacy-db-key=migrate --configure-only -vvv;\n"
+        .'',
+      '#rows' => 2,
+    ),
+    'codeblock4' => array(
+      '#type' => 'textarea',
+      '#title' => '[optional] execute rmc migrations',
+      '#value' => ''
+        ."terminus remote:drush rmc-testbed.dev -- migrate-import --group=rmc -vvv;\n"
+        .'',
+      '#rows' => 2,
     ),
     'nextstep' => array(
       '#markup' => t('<hr>Click to <a href=":cont">continue</a> when done', array(':cont' => drupal_current_script_url($query))),

@@ -45,7 +45,7 @@ dependencies:
   # Migrate
   - migrate
   - migrate_drupal
-  - migrate_drupal_ui
+  # - migrate_drupal_ui
   - migrate_plus
   - migrate_tools
   - migrate_upgrade

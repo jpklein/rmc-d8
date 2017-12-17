@@ -1,0 +1,41 @@
+langcode: en
+status: true
+dependencies: {  }
+label: 'Taxonomy terms (Site Section)'
+id: rmc_taxonomy_term_site_section
+class: Drupal\migrate\Plugin\Migration
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags:
+  - 'Drupal 7'
+migration_group: rmc
+migration_dependencies:
+  optional:
+    - upgrade_d7_field_instance
+source:
+  plugin: d7_taxonomy_term
+  bundle: site_section
+destination:
+  plugin: 'entity:taxonomy_term'
+  default_bundle: site_section
+process:
+  tid: tid
+  vid: 1
+  name: name
+  description/value: description
+  description/format: format
+  weight: weight
+  parent_id:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: parent
+    -
+      plugin: migration_lookup
+      migration: upgrade_d7_taxonomy_term
+  parent:
+    plugin: default_value
+    default_value: 0
+    source: '@parent_id'
+  forum_container: is_container
+  changed: timestamp
