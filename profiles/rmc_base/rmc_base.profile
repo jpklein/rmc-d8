@@ -47,6 +47,24 @@ function rmc_base_additional_modules_task() {
   ];
 }
 
-function rmc_base_post_installation_task() {
-  node_access_rebuild(TRUE);
+function rmc_base_post_installation_task(&$install_state) {
+  // node_access_rebuild(TRUE);
+  file_unmanaged_save_data('{}', 'private://secrets.json', FILE_EXISTS_ERROR);
+  $query = array('continue' => 1);
+  return array(
+    '#title' => 'Connect to the source instance',
+    'codeblock' => array(
+      '#type' => 'textarea',
+      '#title' => 'copy/paste the following to your local terminal:',
+      '#value' => ''
+        ."terminus auth:login --email=jpklein@gmail.com;\n"
+        ."export D7_MYSQL_URL=\$(terminus connection:info --field=mysql_url kfp.sandbox);\n"
+        ."terminus secrets:set rmc-testbed.dev migrate_source_db__url \$D7_MYSQL_URL;\n"
+        ."terminus remote:drush rmc-testbed.dev -- migrate-upgrade --legacy-db-key=migrate --configure-only\n"
+        .'',
+    ),
+    'nextstep' => array(
+      '#markup' => t('<hr>Click to <a href=":cont">continue</a> when done', array(':cont' => drupal_current_script_url($query))),
+    ),
+  );
 }
