@@ -55,11 +55,19 @@ function rmc_base_post_installation_task(&$install_state) {
   return array(
     '#title' => 'Prepare migration',
     '#markup' => 'copy/paste the following to your local terminal',
-    'codeblock1' => array(
+    'codeblock0' => array(
       '#type' => 'textarea',
       '#title' => '[optional] reestablish a terminus session',
       '#value' => ''
         ."terminus auth:login --email=jpklein@gmail.com;\n"
+        .'',
+      '#rows' => 1,
+    ),
+    'codeblock1' => array(
+      '#type' => 'textarea',
+      '#title' => '[optional] wake the source environment',
+      '#value' => ''
+        ."terminus env:wake rmc-migrate-source.dev;\n"
         .'',
       '#rows' => 1,
     ),
@@ -74,17 +82,17 @@ function rmc_base_post_installation_task(&$install_state) {
     ),
     'codeblock3' => array(
       '#type' => 'textarea',
-      '#title' => '[optional] generate default migrations',
+      '#title' => '[optional] execute rmc migrations',
       '#value' => ''
-        ."terminus remote:drush rmc-testbed.dev -- migrate-upgrade --legacy-db-key=migrate --configure-only -vvv;\n"
+        ."terminus remote:drush rmc-testbed.dev -- migrate-import --group=rmc -vvv;\n"
         .'',
       '#rows' => 2,
     ),
     'codeblock4' => array(
       '#type' => 'textarea',
-      '#title' => '[optional] execute rmc migrations',
+      '#title' => '[optional] generate default migrations',
       '#value' => ''
-        ."terminus remote:drush rmc-testbed.dev -- migrate-import --group=rmc -vvv;\n"
+        ."terminus remote:drush rmc-testbed.dev -- migrate-upgrade --legacy-db-key=migrate --configure-only -vvv;\n"
         .'',
       '#rows' => 2,
     ),
