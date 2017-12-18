@@ -1,0 +1,55 @@
+langcode: en
+status: true
+dependencies: {  }
+label: Node (Alert)
+id: rmc_node_alert
+deriver: Drupal\node\Plugin\migrate\D7NodeDeriver
+migration_tags:
+  - 'Drupal 7'
+migration_group: rmc
+migration_dependencies:
+  required:
+    - rmc_taxonomy_term_site_section
+source:
+  plugin: d7_node
+  node_type: alert
+destination:
+  plugin: 'entity:node'
+  default_bundle: alert
+process:
+  # nid: tnid
+  # vid: vid
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: 'und'
+  title: title
+  uid:
+    plugin: default_value
+    default_value: 1
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+  revision_uid:
+    plugin: default_value
+    default_value: 1
+  revision_log: log
+  revision_timestamp: timestamp
+  # additional fields
+  'body/value':
+    plugin: extract
+    source: body
+    index:
+      - 0
+      - value
+  field_site_section:
+    plugin: extract
+    source: field_site_section
+    index:
+      - 0
+      - tid
+    # plugin: migration_lookup
+    # migration: rmc_taxonomy_term_site_section
+    # source: author
