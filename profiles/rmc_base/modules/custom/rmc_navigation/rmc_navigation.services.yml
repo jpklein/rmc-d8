@@ -1,0 +1,7 @@
+services:
+  rmc_navigation.tree_storage:
+    class: Drupal\rmc_navigation\Menu\TaxonomyTreeStorage
+    arguments: ['@database', '@cache.menu', '@cache_tags.invalidator', 'menu_tree']
+  rmc_navigation.taxonomy_tree:
+    class: Drupal\toolbar\Menu\ToolbarMenuLinkTree
+    arguments: ['@rmc_navigation.tree_storage', '@plugin.manager.menu.link', '@router.route_provider', '@menu.active_trail', '@controller_resolver', '@cache.menu', '@current_route_match']

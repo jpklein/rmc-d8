@@ -1,7 +1,7 @@
 name: RMC Base
 type: profile
 description: 'Install with required modules, configuration & target entities for migration of cfketteringfamilies.com to D8'
-version: 0.7-dev
+version: 0.8-dev
 core: 8.x
 distribution:
   name: RMC Base
@@ -54,5 +54,7 @@ dependencies:
   # Contrib in separate install task (@see rmc_base.profile)
   # - gnode
   # - ggroup
+  # Custom modules must be installed manually post migration
+  # - rmc_navigation
 themes:
   - seven

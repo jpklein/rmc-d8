@@ -1,0 +1,85 @@
+<?php
+
+/**
+ * @file
+ * Module file for rmc_navigation.
+ */
+
+use Drupal\Core\Menu\MenuTreeParameters;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_toolbar().
+ *
+ * @see toolbar_toolbar()
+ */
+function rmc_navigation_toolbar() {
+  list($hash, $hash_cacheability) = _toolbar_get_subtrees_hash();
+  $subtrees_attached['drupalSettings']['toolbar'] = [
+    'subtreesHash' => $hash,
+  ];
+
+  $items['groups-all'] = [
+    '#type' => 'toolbar_item',
+    'tab' => [
+      '#type' => 'link',
+      '#title' => t('Groups'),
+      '#url' => Url::fromRoute('system.admin'),
+      '#attributes' => [
+        // 'title' => t('Admin menu'),
+        'class' => ['toolbar-icon', 'toolbar-icon-menu'],
+        'data-drupal-subtrees' => '',
+      ],
+    ],
+    'tray' => [
+      // '#heading' => t('Administration menu'),
+      '#attached' => $subtrees_attached,
+      'toolbar_administration' => [
+        '#pre_render' => [
+          // Call custom function to process submenu items.
+          'rmc_navigation_prerender_groups_tray',
+        ],
+        '#type' => 'container',
+        '#attributes' => [
+          'class' => array('toolbar-menu-administration'),
+        ],
+      ],
+    ],
+    '#weight' => -10,
+  ];
+  // $hash_cacheability->applyTo($items['administration']);
+
+  return $items;
+}
+
+/**
+ * @see toolbar_prerender_toolbar_administration_tray()
+ */
+function rmc_navigation_prerender_groups_tray(array $element) {
+  /**
+   * @todo Refactor to avoid manually switching this call on/off to populate menu link tree table.
+   */
+  // \Drupal::service('rmc_navigation.tree_storage')->defineLinks('rmc_groups');
+
+  $menu_tree = \Drupal::service('rmc_navigation.taxonomy_tree');
+  $parameters = new MenuTreeParameters();
+  // $parameters->setMinDepth(2)->setMaxDepth(2)->onlyEnabledLinks();
+  $manipulators = [
+    [
+      'callable' => 'menu.default_tree_manipulators:checkAccess',
+    ],
+    [
+      'callable' => 'menu.default_tree_manipulators:generateIndexAndSort',
+    ],
+    [
+      'callable' => 'toolbar_menu_navigation_links',
+    ],
+  ];
+
+  // Add custom menu from our taxonomy to the toolbar tray.
+  $tree = $menu_tree->load('rmc_groups', $parameters);
+  $tree = $menu_tree->transform($tree, $manipulators);
+  $element['administration_menu'] = $menu_tree->build($tree);
+
+  return $element;
+}
