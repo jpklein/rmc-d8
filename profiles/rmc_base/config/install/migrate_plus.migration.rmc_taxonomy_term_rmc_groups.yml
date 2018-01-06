@@ -1,0 +1,472 @@
+langcode: en
+status: true
+dependencies: {  }
+label: 'Taxonomy terms (RMC Groups)'
+id: rmc_taxonomy_term_rmc_groups
+class: Drupal\migrate\Plugin\Migration
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags:
+  - 'Drupal 7'
+migration_group: rmc
+migration_dependencies:
+  optional:
+    - upgrade_d7_field_instance
+source:
+  plugin: embedded_data
+  constants:
+    vocabulary: rmc_groups
+  ids:
+    tid:
+      type: integer
+  data_rows:
+    # 1       Fund Member
+    # 14      Fund Trustees
+    # 115     Family History Documents
+    # 126     Dummy Cmte
+    # 181     RMC Meetings
+    # 208     Weekend Meeting Participants
+    # -
+    #   tid: 207
+    #   parent_id: ~
+    #   weight: ~
+    #   name: Kettering Family #Family Member
+    #   path: /directory/family
+    #   group_type: affiliation
+    -
+      tid: 1000
+      parent_id: 0
+      weight: 0
+      name: Ridgeleigh Management Company
+      path: /rmc
+      group_type: kfip
+    -
+      tid: 7
+      parent_id: 1000
+      weight: 1
+      name: RMC Shareholders #Ridgeleigh Shareholders
+      path: /rmc/shareholders
+      group_type: affiliation
+    -
+      tid: 116
+      parent_id: 1000
+      weight: 2
+      name: RMC Directors #Ridgeleigh Directors
+      path: /rmc/directors
+      group_type: affiliation
+    -
+      tid: 198
+      parent_id: 0
+      weight: 1
+      name: Kettering Family Investment Portfolios #KFIP
+      path: /kfip
+      group_type: ~
+    -
+      tid: 4
+      parent_id: 198
+      weight: 2
+      name: C. F. Kettering Inc #Inc
+      path: /kfip/inc
+      group_type: kfip
+    -
+      tid: 111
+      parent_id: 4
+      weight: 3
+      name: Inc Shareholders
+      path: /kfip/inc/shareholders
+      group_type: affiliation
+    -
+      tid: 8
+      parent_id: 4
+      weight: 4
+      name: Inc Directors
+      path: /kfip/inc/directors
+      group_type: affiliation
+    -
+      tid: 112
+      parent_id: 4
+      weight: 5
+      name: Inc Executive Committee #Inc Exec Cmte
+      path: /kfip/inc/executive
+      group_type: affiliation
+    -
+      tid: 9
+      parent_id: 4
+      weight: 6
+      name: Inc Investment Committee #Inc Investment Cmte
+      path: /kfip/inc/investment
+      group_type: affiliation
+    -
+      tid: 199
+      parent_id: 4
+      weight: 7
+      name: Inc Audit Committee #Inc Audit Cmte
+      path: /kfip/inc/audit
+      group_type: affiliation
+    -
+      tid: 81
+      parent_id: 4
+      weight: 8
+      name: Inc Compensation Committee #Inc Compensation Cmte
+      path: /kfip/inc/compensation
+      group_type: affiliation
+    -
+      tid: 10
+      parent_id: 4
+      weight: 9
+      name: Inc Nominating Committee #Inc Nominating Cmte
+      path: /kfip/inc/nominating
+      group_type: affiliation
+    -
+      tid: 5
+      parent_id: 198
+      weight: 3
+      name: Elmer LLC
+      path: /kfip/elmer
+      group_type: kfip
+    -
+      tid: 1003
+      parent_id: 5
+      weight: 4
+      name: Elmer Members
+      path: /kfip/elmer/members
+      group_type: affiliation
+    -
+      tid: 200
+      parent_id: 5
+      weight: 5
+      name: Elmer Managers
+      path: /kfip/elmer/managers
+      group_type: affiliation
+    -
+      tid: 77
+      parent_id: 198
+      weight: 4
+      name: Olive K LLC #Olive LLC
+      path: /kfip/olive
+      group_type: kfip
+    -
+      tid: 1004
+      parent_id: 77
+      weight: 5
+      name: Olive Members
+      path: /kfip/olive/members
+      group_type: affiliation
+    -
+      tid: 201
+      parent_id: 77
+      weight: 6
+      name: Olive Managers
+      path: /kfip/olive/managers
+      group_type: affiliation
+    -
+      tid: 195
+      parent_id: 198
+      weight: 5
+      name: Blue Tail Fly LLC
+      path: /kfip/bluetail
+      group_type: kfip
+    -
+      tid: 1005
+      parent_id: 195
+      weight: 6
+      name: Blue Tail Fly Members
+      path: /kfip/bluetail/members
+      group_type: affiliation
+    -
+      tid: 206
+      parent_id: 195
+      weight: 7
+      name: Blue Tail Fly Managers
+      path: /kfip/bluetail/managers
+      group_type: affiliation
+    -
+      tid: 78
+      parent_id: 198
+      weight: 6
+      name: Detroit Trust
+      path: /
+      group_type: kfip
+    -
+      tid: 6
+      parent_id: 198
+      weight: 7
+      name: EWKII Trust
+      path: /
+      group_type: kfip
+    # -
+    #   tid: 1006
+    #   parent_id: 0
+    #   weight: 1
+    #   name: Kettering Family Philanthropies
+    #   path: ~
+    #   group_type: ~
+    -
+      tid: 2
+      parent_id: 0
+      weight: 2
+      name: Kettering Family Foundation #KFF
+      path: /kff
+      group_type: kfp_affiliation
+    -
+      tid: 13
+      parent_id: 2
+      weight: 6
+      name: KFF Member
+      path: /kff/members
+      group_type: affiliation
+    -
+      tid: 75
+      parent_id: 2
+      weight: 7
+      name: KFF Trustees
+      path: /kff/trustees
+      group_type: affiliation
+    -
+      tid: 11
+      parent_id: 2
+      weight: 8
+      name: KFF Executive Committee #KFF Executive Cmte
+      path: /kff/executive
+      group_type: affiliation
+    # -
+    #   tid: 203
+    #   parent_id: 2
+    #   weight: 9
+    #   name: KFF Executive Committee #KFF Executive Cmte
+    #   path: /kff/executive
+    #   group_type: affiliation
+    -
+      tid: 12
+      parent_id: 2
+      weight: 10
+      name: KFF Investment Committee #KFF Investment Cmte
+      path: /kff/investment
+      group_type: affiliation
+    # -
+    #   tid: 204
+    #   parent_id: 2
+    #   weight: 11
+    #   name: KFF Investment Committee #KFF Investment Cmte
+    #   path: /kff/investment
+    #   group_type: affiliation
+    -
+      tid: 1007
+      parent_id: 2
+      weight: 3
+      name: Kettering Fund
+      path: /kff/tkf
+      group_type: fund
+    -
+      tid: 79
+      parent_id: 1007
+      weight: 6
+      name: Kettering Fund Distribution Committee #Fund Distribution Cmte
+      path: /kff/tkf/distribution
+      group_type: kfp_affiliation
+    -
+      tid: 1008
+      parent_id: 1007
+      weight: 5
+      name: Kettering Fund - Ohio
+      path: /kff/tkf/ohio
+      group_type: fund
+    -
+      tid: 1009
+      parent_id: 1008
+      weight: 6
+      name: Fund - Ohio Distribution Committee
+      path: /kff/tkf/ohio/distribution
+      group_type: kfp_affiliation
+    -
+      tid: 1010
+      parent_id: 1007
+      weight: 4
+      name: Kettering Fund - General
+      path: /kff/tkf/general
+      group_type: fund
+    -
+      tid: 1011
+      parent_id: 1010
+      weight: 5
+      name: Fund - General Distribution Committee
+      path: /kff/tkf/general/distribution
+      group_type: kfp_affiliation
+    -
+      tid: 1012
+      parent_id: 2
+      weight: 4
+      name: KFF Legacy Fund
+      path: /kff/legacy
+      group_type: fund
+    -
+      tid: 82
+      parent_id: 1012
+      weight: 1
+      name: KFF Arts / Culture / Humanities Committee #KFF Arts / Culture / Humanities Cmte
+      path: /kff/legacy/arts-culture-humanities
+      group_type: kfp_affiliation
+    -
+      tid: 83
+      parent_id: 1012
+      weight: 2
+      name: KFF Education Committee #KFF Education Cmte
+      path: /kff/legacy/education
+      group_type: kfp_affiliation
+    -
+      tid: 84
+      parent_id: 1012
+      weight: 3
+      name: KFF Environment Committee #KFF Environment Cmte
+      path: /kff/legacy/environment
+      group_type: kfp_affiliation
+    -
+      tid: 86
+      parent_id: 1012
+      weight: 4
+      name: KFF Health / Medical Committee #KFF Health / Medical Cmte
+      path: /kff/legacy/health-medical
+      group_type: kfp_affiliation
+    -
+      tid: 85
+      parent_id: 1012
+      weight: 5
+      name: KFF Human Services Committee #KFF Human Services Cmte
+      path: /kff/legacy/human-services
+      group_type: kfp_affiliation
+    -
+      tid: 87
+      parent_id: 1012
+      weight: 6
+      name: KFF Public / Society Benefit Committee #KFF Public / Society Benefit Cmte
+      path: /kff/legacy/public-society-benefit
+      group_type: kfp_affiliation
+    -
+      tid: 88
+      parent_id: 1012
+      weight: 7
+      name: KFF Other Committee #KFF Other Cmte
+      path: /kff/legacy/other
+      group_type: kfp_affiliation
+    -
+      tid: 173
+      parent_id: 1012
+      weight: 8
+      name: Jane K. Lombard
+      path: /kff/legacy/jkl
+      group_type: kfp_fund
+    -
+      tid: 179
+      parent_id: 1012
+      weight: 9
+      name: Susan K. Williamson
+      path: /kff/legacy/skw
+      group_type: kfp_fund
+    -
+      tid: 76
+      parent_id: 2
+      weight: 5
+      name: KFF Virginia W Kettering Funds #VWK Funds (KFF)
+      path: /kff/vwkff
+      group_type: kfp_affiliation
+    -
+      tid: 170
+      parent_id: 76
+      weight: 1
+      name: Charles F. Kettering III Fund #Charles F. Kettering III
+      path: /kff/vwkff/cfk3
+      group_type: kfp_fund
+    -
+      tid: 171
+      parent_id: 76
+      weight: 2
+      name: Debra L. Williamson Fund #Debra L. Williamson
+      path: /kff/vwkff/dlw
+      group_type: kfp_fund
+    -
+      tid: 172
+      parent_id: 76
+      weight: 3
+      name: Douglas E. Williamson Fund #Douglas E. Williamson
+      path: /kff/vwkff/dew
+      group_type: kfp_fund
+    -
+      tid: 174
+      parent_id: 76
+      weight: 4
+      name: Karen W. Cushnie Fund #Karen W. Cushnie
+      path: /kff/vwkff/kwc
+      group_type: kfp_fund
+    -
+      tid: 175
+      parent_id: 76
+      weight: 5
+      name: Kyle W. Kim Fund #Kyle W. Kim
+      path: /kff/vwkff/kwk
+      group_type: kfp_fund
+    -
+      tid: 176
+      parent_id: 76
+      weight: 6
+      name: Linda K. Danneberg Fund #Linda K. Danneberg
+      path: /kff/vwkff/lkd
+      group_type: kfp_fund
+    -
+      tid: 177
+      parent_id: 76
+      weight: 7
+      name: Richard J. Lombard Fund #Richard J. Lombard
+      path: /kff/vwkff/rjl
+      group_type: kfp_fund
+    -
+      tid: 178
+      parent_id: 76
+      weight: 8
+      name: Sarah V. Lombard Fund #Sarah V. Lombard
+      path: /kff/vwkff/svl
+      group_type: kfp_fund
+    -
+      tid: 180
+      parent_id: 76
+      weight: 9
+      name: Susan S. Kettering Fund #Susan S. Kettering
+      path: /kff/vwkff/ssk
+      group_type: kfp_fund
+    -
+      tid: 3
+      parent_id: 0
+      weight: 3
+      name: Virginia W. Kettering Foundation #VWKF
+      path: /vwk
+      group_type: fund
+    -
+      tid: 80
+      parent_id: 3
+      weight: 1
+      name: VWKF Trustees
+      path: /vwk/trustees
+      group_type: affiliation
+    -
+      tid: 15
+      parent_id: 3
+      weight: 2
+      name: VWKF Distribution Committee #VWKF Distribution Cmte
+      path: /vwk/distribution
+      group_type: kfp_affiliation
+destination:
+  plugin: 'entity:taxonomy_term'
+  default_bundle: rmc_groups
+process:
+  vid: constants/vocabulary
+  # tid: tid
+  parent:
+    plugin: migration_lookup
+    migration: rmc_taxonomy_term_rmc_groups
+    source: parent_id
+  weight: weight
+  name: name
+  path: path
+  # description/value: description
+  # description/format: format
+  # forum_container: is_container
+  # changed: timestamp
