@@ -16,7 +16,7 @@ dependencies:
   - color
   - config
   - comment
-  - contextual
+  # - contextual
   - contact
   - menu_link_content
   - datetime
@@ -33,7 +33,7 @@ dependencies:
   - taxonomy
   - dblog
   - search
-  - shortcut
+  # - shortcut
   - toolbar
   - field_ui
   - file
