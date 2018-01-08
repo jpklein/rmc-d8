@@ -14,12 +14,53 @@ use Drupal\Core\Url;
  * @see toolbar_toolbar()
  */
 function rmc_navigation_toolbar() {
+  // The 'Bulletins', 'Proposals', 'Meetings' & 'Documents' tabs are simple links without a tray.
+  $items = [
+    'rmc-bulletins' => [
+      '#type' => 'toolbar_item',
+      'tab' => [
+        '#type' => 'link',
+        '#title' => t('Bulletins'),
+        '#url' => Url::fromUri('internal:/bulletins'),
+      ],
+      '#weight' => 0,
+    ],
+    'rmc-proposals' => [
+      '#type' => 'toolbar_item',
+      'tab' => [
+        '#type' => 'link',
+        '#title' => t('Proposals'),
+        '#url' => Url::fromUri('internal:/proposals'),
+      ],
+      '#weight' => 1,
+    ],
+    'rmc-meetings' => [
+      '#type' => 'toolbar_item',
+      'tab' => [
+        '#type' => 'link',
+        '#title' => t('Meetings'),
+        '#url' => Url::fromUri('internal:/meetings'),
+      ],
+      '#weight' => 2,
+    ],
+    'rmc-documents' => [
+      '#type' => 'toolbar_item',
+      'tab' => [
+        '#type' => 'link',
+        '#title' => t('Documents'),
+        '#url' => Url::fromUri('internal:/documents'),
+      ],
+      '#weight' => 3,
+    ],
+  ];
+
+  // @see toolbar_subtrees_jsonp()
   list($hash, $hash_cacheability) = _toolbar_get_subtrees_hash();
   $subtrees_attached['drupalSettings']['toolbar'] = [
     'subtreesHash' => $hash,
   ];
 
-  $items['groups-all'] = [
+  $items['rmc-groups'] = [
     '#type' => 'toolbar_item',
     'tab' => [
       '#type' => 'link',
@@ -82,4 +123,14 @@ function rmc_navigation_prerender_groups_tray(array $element) {
   $element['administration_menu'] = $menu_tree->build($tree);
 
   return $element;
+}
+
+/**
+ * Implements hook_toolbar_alter().
+ */
+function rmc_navigation_toolbar_alter(array &$items) {
+  unset($items['administration']);
+  unset($items['home']);
+  $items['user']['#wrapper_attributes']['style'] = 'float:right';
+  $items['user']['weight'] = 20;
 }
