@@ -466,7 +466,7 @@ process:
   weight: weight
   name: name
   path: path
-  # description/value: description
+  description/value: group_type
   # description/format: format
   # forum_container: is_container
   # changed: timestamp
