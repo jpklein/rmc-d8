@@ -1,0 +1,70 @@
+rmc_navigation.dashboard:
+  path: '/dashboard'
+  defaults:
+    _controller: '\Drupal\rmc_navigation\Controller\RmcController::content'
+    _title: 'RMC Dashboard'
+  requirements:
+    _permission: 'access content'
+# global views
+rmc_navigation.bulletins:
+  path: '/bulletins'
+  defaults:
+    _controller: '\Drupal\rmc_navigation\Controller\RmcController::content'
+    _title: 'Bulletins'
+  requirements:
+    _permission: 'access content'
+rmc_navigation.all_proposals:
+  path: '/proposals'
+  defaults:
+    _controller: '\Drupal\rmc_navigation\Controller\RmcController::content'
+    _title: 'Proposals'
+  requirements:
+    _permission: 'access content'
+rmc_navigation.all_meetings:
+  path: '/meetings'
+  defaults:
+    _controller: '\Drupal\rmc_navigation\Controller\RmcController::content'
+    _title: 'Meetings'
+  requirements:
+    _permission: 'access content'
+rmc_navigation.all_documents:
+  path: '/documents'
+  defaults:
+    _controller: '\Drupal\rmc_navigation\Controller\RmcController::content'
+    _title: 'Documents'
+  requirements:
+    _permission: 'access content'
+# group views
+rmc_navigation.proposals:
+  path: '/taxonomy/term/{taxonomy_term}/proposals'
+  defaults:
+    _controller: '\Drupal\rmc_navigation\Controller\RmcController::content'
+    _title_callback: '\Drupal\rmc_navigation\Controller\RmcController::title'
+  options:
+    parameters:
+      taxonomy_term:
+        type: entity:taxonomy_term
+  requirements:
+    _custom_access: '\Drupal\rmc_navigation\Controller\RmcController::access'
+rmc_navigation.meetings:
+  path: '/taxonomy/term/{taxonomy_term}/meetings'
+  defaults:
+    _controller: '\Drupal\rmc_navigation\Controller\RmcController::content'
+    _title_callback: '\Drupal\rmc_navigation\Controller\RmcController::title'
+  options:
+    parameters:
+      taxonomy_term:
+        type: entity:taxonomy_term
+  requirements:
+    _permission: 'access content'
+rmc_navigation.documents:
+  path: '/taxonomy/term/{taxonomy_term}/documents'
+  defaults:
+    _controller: '\Drupal\rmc_navigation\Controller\RmcController::content'
+    _title_callback: '\Drupal\rmc_navigation\Controller\RmcController::title'
+  options:
+    parameters:
+      taxonomy_term:
+        type: entity:taxonomy_term
+  requirements:
+    _permission: 'access content'

@@ -1,0 +1,34 @@
+# global tabs
+rmc_navigation.dashboard:
+  route_name: rmc_navigation.dashboard
+  title: 'Overview'
+  base_route: rmc_navigation.dashboard
+rmc_navigation.bulletins:
+  route_name: rmc_navigation.bulletins
+  title: 'Bulletins'
+  base_route: rmc_navigation.dashboard
+rmc_navigation.all_proposals:
+  route_name: rmc_navigation.all_proposals
+  title: 'Proposals'
+  base_route: rmc_navigation.dashboard
+rmc_navigation.all_meetings:
+  route_name: rmc_navigation.all_meetings
+  title: 'Meetings'
+  base_route: rmc_navigation.dashboard
+rmc_navigation.all_documents:
+  route_name: rmc_navigation.all_documents
+  title: 'Documents'
+  base_route: rmc_navigation.dashboard
+# group tabs
+rmc_navigation.proposals:
+  route_name: rmc_navigation.proposals
+  title: 'Proposals'
+  base_route: entity.taxonomy_term.canonical
+rmc_navigation.meetings:
+  route_name: rmc_navigation.meetings
+  title: 'Meetings'
+  base_route: entity.taxonomy_term.canonical
+rmc_navigation.documents:
+  route_name: rmc_navigation.documents
+  title: 'Documents'
+  base_route: entity.taxonomy_term.canonical

@@ -1,10 +1,10 @@
 name: RMC Navigation
 type: module
-description: Configures navigation among groups and content views.
+description: Configures navigation between groups and content views.
 package: RMC Base
 core: 8.x
-version: '8.x-1.0-alpha1'
+version: '8.x-1.0-alpha2'
 dependencies:
-  # - drupal:toolbar
   - drupal:taxonomy
+  # - drupal:toolbar
   - toolbar_anti_flicker:toolbar_anti_flicker
