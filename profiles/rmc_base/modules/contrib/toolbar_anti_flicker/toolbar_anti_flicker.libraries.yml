@@ -1,0 +1,7 @@
+toolbar-anti-flicker:
+  version: 8.x-2.0
+  css:
+    theme:
+      css/toolbar-anti-flicker.css: {}
+  dependencies:
+    - core/jquery.cookie
