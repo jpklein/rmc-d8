@@ -1,0 +1,13 @@
+name: Hierarchical Taxonomy Menu
+type: module
+description: 'Hierarchical Taxonomy Menu is a module for creating menus from taxonomy vocabularies.'
+# core: 8.x
+package: Menu
+dependencies:
+  - taxonomy
+
+# Information added by Drupal.org packaging script on 2017-12-27
+version: '8.x-1.15+1-dev'
+core: '8.x'
+project: 'hierarchical_taxonomy_menu'
+datestamp: 1514374687
