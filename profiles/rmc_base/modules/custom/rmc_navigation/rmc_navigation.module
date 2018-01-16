@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Menu\MenuTreeParameters;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 
 /**
@@ -20,6 +21,15 @@ function rmc_navigation_page_top(array &$page_top) {
       ],
     ],
   ];
+}
+
+/**
+ * Implements hook_local_tasks_alter().
+ */
+function rmc_navigation_local_tasks_alter(array &$local_tasks) {
+  // Alter the secondary navigation tabs for taxonomy term pages.
+  $local_tasks['entity.taxonomy_term.canonical']['title'] = new TranslatableMarkup('Overview');
+  unset($local_tasks['entity.taxonomy_term.edit_form']);
 }
 
 /**
