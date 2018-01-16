@@ -5,10 +5,10 @@ dependencies:
     - system
   theme:
     - seven
-id: seven_breadcrumbs
+id: breadcrumbs
 theme: seven
-region: breadcrumb
-weight: 0
+region: header
+weight: -3
 provider: null
 plugin: system_breadcrumb_block
 settings:
