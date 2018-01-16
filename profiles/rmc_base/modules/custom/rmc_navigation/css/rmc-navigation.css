@@ -1,9 +1,19 @@
+#toolbar-administration {
+  position: absolute;
+}
+header.content-header {
+  flex: 0 0 285px;
+  min-height: 100vh;
+}
+.block-page-title-block h1 {
+  line-height: 1.125em;
+}
 .rmc-dashboard-content {
   padding-top: 20px;
 }
-/* * {
+* {
   box-sizing: border-box;
-}*/
+}
 /*.rmc-dashboard-content {*/
 .masonry-layout {
   display: flex;
