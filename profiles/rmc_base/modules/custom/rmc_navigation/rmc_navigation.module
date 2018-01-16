@@ -9,6 +9,51 @@ use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Url;
 
 /**
+ * Implements hook_page_top().
+ */
+function rmc_navigation_page_top(array &$page_top) {
+  // Add custom styling to all pages.
+  $page_top[] = [
+    '#attached' => [
+      'library' => [
+        'rmc_navigation/rmc_navigation'
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_entity_display_build_alter().
+ */
+function rmc_navigation_entity_display_build_alter(array &$build, array $context) {
+  // Only alter the display of rmc-group taxonomy terms.
+  /** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
+  $entity = $context['entity'];
+  if ($entity->getEntityTypeId() !== 'taxonomy_term' || $entity->bundle() !== 'rmc_groups') {
+    return;
+  }
+
+  // Do not display the body field.
+  unset($build['description']);
+
+  // Render custom dashboard panels.
+  $group_type = $entity->getDescription();
+  $build['rmc_group_panels']['#markup'] = \Drupal\rmc_navigation\Controller\RmcController::dashboard($group_type);
+  // $build['rmc_group_panels']['#attached']['library'][] = 'rmc_navigation/rmc_navigation';
+}
+
+/**
+ * Implements hook_toolbar_alter().
+ */
+function rmc_navigation_toolbar_alter(array &$items) {
+  // Remove default toolbar menu items.
+  unset($items['administration']);
+  unset($items['home']);
+  $items['user']['#wrapper_attributes']['style'] = 'float:right';
+  $items['user']['weight'] = 20;
+}
+
+/**
  * Implements hook_toolbar().
  *
  * @see toolbar_toolbar()
@@ -106,15 +151,9 @@ function rmc_navigation_prerender_groups_tray(array $element) {
   $parameters = new MenuTreeParameters();
   // $parameters->setMinDepth(2)->setMaxDepth(2)->onlyEnabledLinks();
   $manipulators = [
-    [
-      'callable' => 'menu.default_tree_manipulators:checkAccess',
-    ],
-    [
-      'callable' => 'menu.default_tree_manipulators:generateIndexAndSort',
-    ],
-    [
-      'callable' => 'toolbar_menu_navigation_links',
-    ],
+    [ 'callable' => 'menu.default_tree_manipulators:checkAccess' ],
+    [ 'callable' => 'menu.default_tree_manipulators:generateIndexAndSort' ],
+    [ 'callable' => 'toolbar_menu_navigation_links' ],
   ];
 
   // Add custom menu from our taxonomy to the toolbar tray.
@@ -123,14 +162,4 @@ function rmc_navigation_prerender_groups_tray(array $element) {
   $element['administration_menu'] = $menu_tree->build($tree);
 
   return $element;
-}
-
-/**
- * Implements hook_toolbar_alter().
- */
-function rmc_navigation_toolbar_alter(array &$items) {
-  unset($items['administration']);
-  unset($items['home']);
-  $items['user']['#wrapper_attributes']['style'] = 'float:right';
-  $items['user']['weight'] = 20;
 }

@@ -1,0 +1,5 @@
+rmc_navigation:
+  version: 1.x
+  css:
+    theme:
+      css/rmc-navigation.css: {}
