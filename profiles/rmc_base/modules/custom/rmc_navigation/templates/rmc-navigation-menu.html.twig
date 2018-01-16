@@ -1,0 +1,45 @@
+{% macro menu_links(menu_tree, route_tid, current_depth, max_depth) %}
+  {% import _self as macros %}
+  {% for item in menu_tree %}
+    {%
+      set liClass = [
+        item.subitem and current_depth < max_depth ? 'menu-item menu-item--expanded' : 'menu-item',
+        route_tid == item.tid ? 'menu-item--active' : ''
+      ]
+    %}
+    <li class="{{ liClass|join(' ') }}">
+      {% if item.image %}
+        <img class="menu-item-image" src="{{ item.image }}" {% if item.use_image_style == false %}height="{{ item.height }}" width="{{ item.width }}"{% endif %} />
+      {% endif %}
+        <a href="{{ item.url }}" {% if route_tid == item.tid %}class="active"{% endif %}>{{ item.name }}</a>
+      {% if item.subitem and current_depth < max_depth %}
+        {% if item.interactive_parent %}
+          <i class="arrow-right parent-toggle" aria-hidden="true"></i><span class="visually-hidden">Expand Secondary Navigation Menu</span>
+        {% endif %}
+        <ul class="menu">
+          {{ macros.menu_links(item.subitem, route_tid, current_depth + 1, max_depth) }}
+        </ul>
+      {% endif %}
+    </li>
+  {% endfor %}
+{% endmacro %}
+
+{% import _self as macros %}
+{%
+  set classes = [
+    'block',
+    'block-menu',
+    'navigation',
+  ]
+%}
+{% set heading_id = attributes.id ~ '-menu'|clean_id %}
+<nav role="navigation" aria-labelledby="{{ heading_id }}"{{ attributes.addClass(classes)|without('role', 'aria-labelledby') }}>
+  <ul class="menu hierarchical-taxonomy-menu">
+    {% for item in global_links %}
+      <li class="'menu-item'">
+        <a href="{{ item.url }}" {% if item.tid %}class="active"{% endif %}>{{ item.name }}</a>
+      </li>
+    {% endfor %}
+    {{ macros.menu_links(menu_tree, route_tid, 0, max_depth) }}
+  </ul>
+</nav>

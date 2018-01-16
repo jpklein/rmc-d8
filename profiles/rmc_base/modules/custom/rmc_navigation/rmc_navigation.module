@@ -11,6 +11,15 @@ use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
 
 /**
+ * Implements hook_theme_registry_alter().
+ */
+function rmc_navigation_theme_registry_alter(array &$theme_registry) {
+  // Use a custom template to display hierarchical taxonomy menus.
+  $theme_registry['hierarchical_taxonomy_menu']['template'] = 'rmc-navigation-menu';
+  $theme_registry['hierarchical_taxonomy_menu']['path'] = drupal_get_path('module', 'rmc_navigation') . '/templates';
+}
+
+/**
  * Implements hook_page_top().
  */
 function rmc_navigation_page_top(array &$page_top) {

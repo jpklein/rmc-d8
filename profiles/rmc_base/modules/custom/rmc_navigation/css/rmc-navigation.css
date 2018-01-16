@@ -5,8 +5,31 @@ header.content-header {
   flex: 0 0 285px;
   min-height: 100vh;
 }
-.block-page-title-block h1 {
+.block-page-title-block h1,
+.hierarchical-taxonomy-menu li {
   line-height: 1.125em;
+}
+ul.hierarchical-taxonomy-menu > li.menu-item {
+  margin: .825em 0;
+}
+.hierarchical-taxonomy-menu .menu-item {
+  margin: .35em 0;
+  font-weight: normal;
+}
+.hierarchical-taxonomy-menu .menu-item--expanded {
+  margin: .5em 0;
+  font-weight: bold;
+}
+.hierarchical-taxonomy-menu .menu-item a {
+  text-decoration: none;
+}
+.hierarchical-taxonomy-menu .menu-item a:hover,
+.hierarchical-taxonomy-menu .menu-item--expanded.active > a {
+  text-decoration: underline;
+}
+.hierarchical-taxonomy-menu .menu {
+  margin-top: .5em;
+  margin-bottom: 0.825em;
 }
 .rmc-dashboard-content {
   padding-top: 20px;
